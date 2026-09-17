@@ -1,0 +1,5 @@
+/build/
+/dist/
+/nbproject/private/
+/nbproject/launch.xml
+.DS_Store   
