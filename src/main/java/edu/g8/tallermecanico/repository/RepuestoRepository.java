@@ -3,14 +3,10 @@ package main.java.edu.g8.tallermecanico.repository;
 import main.java.edu.g8.tallermecanico.model.Repuesto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
- feature/TMM-19-consultar-stock-bajo
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.sql.SQLException;
- main
 
 public class RepuestoRepository {
 
@@ -25,7 +21,6 @@ public class RepuestoRepository {
             return stmt.executeUpdate() > 0;
         }
     }
-feature/TMM-19-consultar-stock-bajo
 
     public boolean descontarStock(int idRepuesto, int cantidad, Connection conn) throws SQLException {
         String sql = "UPDATE Repuesto SET stock = stock - ? WHERE id_repuesto = ? AND stock >= ?";
@@ -55,6 +50,4 @@ feature/TMM-19-consultar-stock-bajo
         }
         return lista;
     }
-
- main
 }

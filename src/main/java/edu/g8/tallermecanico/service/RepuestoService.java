@@ -1,4 +1,3 @@
-feature/TMM-19-consultar-stock-bajo
 package main.java.edu.g8.tallermecanico.service;
 
 import java.sql.Connection;
@@ -39,18 +38,3 @@ public class RepuestoService {
         return repuestoRepository.obtenerStockBajo(conn);
     }
 }
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package main.java.edu.g8.tallermecanico.service;
-
-/**
- *
- * @author Mattt
- */
-public class RepuestoService {
-    
-}
- main
