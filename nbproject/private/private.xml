@@ -3,7 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/edu/g8/tallermecanico/Main.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/resources/view/MecanicoView.fxml</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/repository/MecanicoRepository.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/Main.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/service/MecanicoService.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/controller/MecanicoController.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/util/SceneManager.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/config/ConnectionDb.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/config/CredentialsDb.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/main/java/edu/g8/tallermecanico/model/Mecanico.java</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/src/resources/css/Style.css</file>
+            <file>file:/C:/Users/Informatica/Documents/ProyectoFinalG8/taller-mecanico/.gitignore</file>
         </group>
     </open-files>
 </project-private>
