@@ -3,7 +3,10 @@ package main.java.edu.g8.tallermecanico.repository;
 import main.java.edu.g8.tallermecanico.model.Repuesto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RepuestoRepository {
 
@@ -18,13 +21,33 @@ public class RepuestoRepository {
             return stmt.executeUpdate() > 0;
         }
     }
+
     public boolean descontarStock(int idRepuesto, int cantidad, Connection conn) throws SQLException {
-    String sql = "UPDATE Repuesto SET stock = stock - ? WHERE id_repuesto = ? AND stock >= ?";
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, cantidad);
-        stmt.setInt(2, idRepuesto);
-        stmt.setInt(3, cantidad);
-        return stmt.executeUpdate() > 0;
+        String sql = "UPDATE Repuesto SET stock = stock - ? WHERE id_repuesto = ? AND stock >= ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, cantidad);
+            stmt.setInt(2, idRepuesto);
+            stmt.setInt(3, cantidad);
+            return stmt.executeUpdate() > 0;
+        }
     }
-}
+
+    public List<Repuesto> obtenerStockBajo(Connection conn) throws SQLException {
+        List<Repuesto> lista = new ArrayList<>();
+        String sql = "SELECT * FROM VistaStockBajo";
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Repuesto r = new Repuesto();
+                r.setIdRepuesto(rs.getInt("id_repuesto"));
+                r.setNombre(rs.getString("nombre"));
+                r.setStock(rs.getInt("stock"));
+                r.setStockMinimo(rs.getInt("stock_minimo"));
+                r.setPrecio(rs.getDouble("precio"));
+                r.setProveedor(rs.getString("proveedor"));
+                lista.add(r);
+            }
+        }
+        return lista;
+    }
 }
