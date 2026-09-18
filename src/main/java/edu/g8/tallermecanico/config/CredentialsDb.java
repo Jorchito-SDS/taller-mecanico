@@ -9,5 +9,7 @@ package main.java.edu.g8.tallermecanico.config;
  * @author informatica
  */
 public class CredentialsDb {
-    
+        public static final String URL_DB = "jdbc:mysql://localhost:3306/taller_mecanico_in4bm";
+    public static final String USER_DB ="IN4BM";
+    public static final String PASS_DB = "$DmynM4A";
 }
