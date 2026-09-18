@@ -18,4 +18,13 @@ public class RepuestoRepository {
             return stmt.executeUpdate() > 0;
         }
     }
+    public boolean descontarStock(int idRepuesto, int cantidad, Connection conn) throws SQLException {
+    String sql = "UPDATE Repuesto SET stock = stock - ? WHERE id_repuesto = ? AND stock >= ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, cantidad);
+        stmt.setInt(2, idRepuesto);
+        stmt.setInt(3, cantidad);
+        return stmt.executeUpdate() > 0;
+    }
+}
 }
