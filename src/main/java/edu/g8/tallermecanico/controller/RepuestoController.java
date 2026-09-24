@@ -48,7 +48,7 @@ public class RepuestoController implements Initializable {
 
     @FXML
     private void handleRegistrar() {
-        try (Connection conn = ConnectionDb.getInstance().getConnection()) {
+        try (Connection conn = ConnectionDb.getConnection()) {
             Repuesto r = new Repuesto();
             r.setNombre(txtNombre.getText());
             r.setStock(Integer.parseInt(txtStock.getText()));
@@ -67,7 +67,7 @@ public class RepuestoController implements Initializable {
 
     @FXML
     private void handleConsultarStockBajo() {
-        try (Connection conn = ConnectionDb.getInstance().getConnection()) {
+        try (Connection conn = ConnectionDb.getConnection()) {
             List<Repuesto> stockBajo = repuestoService.listarRepuestosStockBajo(conn);
             listaRepuestos.setAll(stockBajo);
         } catch (Exception e) {
