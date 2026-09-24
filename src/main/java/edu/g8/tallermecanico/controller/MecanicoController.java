@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 
 import main.java.edu.g8.tallermecanico.model.Mecanico;
 import main.java.edu.g8.tallermecanico.service.MecanicoService;
+import main.java.edu.g8.tallermecanico.util.SceneManager;
 
 public class MecanicoController {
 
@@ -93,4 +94,8 @@ public class MecanicoController {
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
+    @FXML
+public void onVolverMenu(ActionEvent event) {
+    SceneManager.cambiarVista("/view/LoginView.fxml", "Acceso - Taller Mecánico");
+}
 }
