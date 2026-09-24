@@ -1,5 +1,7 @@
 package main.java.edu.g8.tallermecanico.controller;
 
+import java.sql.SQLException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +12,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import main.java.edu.g8.tallermecanico.model.Mecanico;
+import main.java.edu.g8.tallermecanico.repository.MecanicoRepository;
 import main.java.edu.g8.tallermecanico.util.SceneManager;
 
 public class MecanicoController {
@@ -20,37 +25,62 @@ public class MecanicoController {
     @FXML private CheckBox chkDisponible;
     @FXML private PasswordField txtPassword;
 
-    @FXML private TableView<?> tablaMecanicos;
-    @FXML private TableColumn<?, String> colNombre;
-    @FXML private TableColumn<?, String> colEspecialidad;
-    @FXML private TableColumn<?, String> colTelefono;
+    @FXML private TableView<Mecanico> tablaMecanicos;
+    @FXML private TableColumn<Mecanico, String> colNombre;
+    @FXML private TableColumn<Mecanico, String> colEspecialidad;
+    @FXML private TableColumn<Mecanico, String> colTelefono;
+
+    private final MecanicoRepository mecanicoRepository = new MecanicoRepository();
+    private final ObservableList<Mecanico> listaMecanicos = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colEspecialidad.setCellValueFactory(new PropertyValueFactory<>("especialidad"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+
+        cargarMecanicos();
+    }
+
+    private void cargarMecanicos() {
+        try {
+            listaMecanicos.clear();
+            List<Mecanico> datos = mecanicoRepository.listarMecanicos();
+            listaMecanicos.addAll(datos);
+            tablaMecanicos.setItems(listaMecanicos);
+        } catch (SQLException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de Conexión", "No se pudieron cargar los mecánicos desde la base de datos.");
+        }
+    }
 
     @FXML
     public void onGuardar(ActionEvent event) {
-        // Validar que los campos obligatorios no estén vacíos
         if (txtNombre.getText().trim().isEmpty() || 
             txtEspecialidad.getText().trim().isEmpty() || 
-            txtTelefono.getText().trim().isEmpty()) {
+            txtTelefono.getText().trim().isEmpty() ||
+            txtPassword.getText().trim().isEmpty()) {
             
-            // Alerta de error directa en el controlador
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de Validación");
-            alert.setHeaderText(null);
-            alert.setContentText("Por favor completa los campos obligatorios: Nombre, Especialidad y Teléfono.");
-            alert.showAndWait();
+            mostrarAlerta(Alert.AlertType.WARNING, "Campos Incompletos", "Por favor completa todos los campos del formulario.");
             return;
         }
 
-        // --- Lógica para guardar o insertar en lista/base de datos ---
+        try {
+            Mecanico nuevoMecanico = new Mecanico(
+                txtNombre.getText().trim(),
+                txtEspecialidad.getText().trim(),
+                txtTelefono.getText().trim(),
+                chkDisponible.isSelected() ? 1 : 0,
+                txtPassword.getText().trim()
+            );
 
-        // Alerta de confirmación de éxito directa en el controlador
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
-        alert.setHeaderText(null);
-        alert.setContentText("El mecánico ha sido registrado correctamente.");
-        alert.showAndWait();
-
-        onLimpiar(event);
+            if (mecanicoRepository.guardarMecanico(nuevoMecanico)) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Mecánico guardado con éxito.");
+                cargarMecanicos();
+                onLimpiar(event);
+            }
+        } catch (SQLException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al Guardar", "Ocurrió un error al intentar registrar el mecánico.");
+        }
     }
 
     @FXML
@@ -64,6 +94,14 @@ public class MecanicoController {
 
     @FXML
     public void onVolverMenu(ActionEvent event) {
-        SceneManager.cambiarVista("/view/LoginView.fxml", "Acceso - Taller Mecánico");
+        SceneManager.cambiarVista("/view/MenuView.fxml", "Gestión General - Taller Mecánico");
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }
