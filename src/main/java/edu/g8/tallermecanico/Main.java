@@ -7,23 +7,28 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- *
- * @author informatica
- */
+import java.net.URL;
+
 public class Main extends Application {
 
-@Override
+    @Override
     public void start(Stage primaryStage) {
         try {
-            // Buscamos el FXML dentro de la carpeta resources/view/
-            Parent root = FXMLLoader.load(getClass().getResource("/view/ClienteView.fxml"));
+            // Reemplaza "VehiculoView.fxml" por "ClienteView.fxml" si quieres probar la otra vista primero.
+            // Asegúrate de que la ruta del recurso coincida con la ubicación de tu archivo FXML en el proyecto.
+           URL fxmlUrl = getClass().getResource("/view/VehiculoView.fxml");
             
-            Scene scene = new Scene(root);
+            if (fxmlUrl == null) {
+                System.out.println("No se pudo encontrar el archivo FXML. Revisa la ruta.");
+                return;
+            }
+
+            Parent root = FXMLLoader.load(fxmlUrl);
             
-            primaryStage.setTitle("Taller Mecánico - Registro de Clientes");
-            primaryStage.setScene(scene);
+            primaryStage.setTitle("Sistema de Taller Mecánico - Módulo de Vehículos");
+            primaryStage.setScene(new Scene(root));
             primaryStage.show();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,7 +40,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
 
 

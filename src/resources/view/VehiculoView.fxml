@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1050.0" style="-fx-background-color: #1e222b;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.g8.tallermecanico.controller.VehiculoController">
+   
+   <!-- Panel Lateral (Sidebar) -->
+   <left>
+      <VBox alignment="TOP_CENTER" prefWidth="110.0" spacing="25.0" style="-fx-background-color: #14171f; -fx-padding: 20 0 0 0;" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="🏠 Inicio" />
+            <Button mnemonicParsing="false" style="-fx-background-color: #2b313d; -fx-text-fill: #3182ce; -fx-cursor: hand;" text="🚗 Vehículos" />
+            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="👥 Clientes" />
+            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="⚙️ Ajustes" />
+         </children>
+      </VBox>
+   </left>
+   
+   <!-- Contenido Principal -->
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <!-- Título Superior -->
+            <Label layoutX="30.0" layoutY="25.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="Listado General de Vehículos" />
+            
+            <!-- Contenedor del Formulario (Izquierda) -->
+            <VBox layoutX="30.0" layoutY="70.0" prefWidth="280.0" spacing="12.0">
+               <children>
+                  <Label text="Placa" textFill="#a0aec0" />
+                  <TextField fx:id="txtPlaca" promptText="Ej: P-123XYZ" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                  
+                  <Label text="Marca" textFill="#a0aec0" />
+                  <TextField fx:id="txtMarca" promptText="Marca del vehículo" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                  
+                  <Label text="Modelo" textFill="#a0aec0" />
+                  <TextField fx:id="txtModelo" promptText="Modelo" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                  
+                  <Label text="Año" textFill="#a0aec0" />
+                  <TextField fx:id="txtAnio" promptText="Año" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                  
+                  <Label text="Kilometraje" textFill="#a0aec0" />
+                  <TextField fx:id="txtKilometraje" promptText="Kilometraje" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                  
+                  <Label text="Cliente ID" textFill="#a0aec0" />
+                  <TextField fx:id="txtIdCliente" promptText="ID del cliente" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                  
+                  <!-- Botones de Acción -->
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarVehiculo" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #2f855a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="➕ Añadir Vehículo" />
+                  <Button fx:id="btnActualizar" mnemonicParsing="false" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #d69e2e; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🔄 Actualizar" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #9b2c2c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🗑 Eliminar" />
+                  <Button fx:id="btnLimpiar" mnemonicParsing="false" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #4a5568; -fx-text-fill: white; -fx-cursor: hand;" text="Limpiar" />
+               </children>
+            </VBox>
+            
+            <!-- Barra de Búsqueda y Tabla (Derecha) -->
+            <VBox layoutX="335.0" layoutY="70.0" prefHeight="540.0" prefWidth="570.0" spacing="10.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Buscar por Placa:" textFill="#a0aec0" />
+                        <TextField fx:id="txtBuscar" prefHeight="25.0" prefWidth="350.0" promptText="Ingrese placa a buscar..." style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                     </children>
+                  </HBox>
+                  
+                  <TableView fx:id="tablaVehiculos" prefHeight="500.0" prefWidth="570.0" style="-fx-background-color: #2b313d;">
+                    <columns>
+                      <TableColumn fx:id="colPlaca" prefWidth="90.0" text="Placa" />
+                      <TableColumn fx:id="colMarca" prefWidth="90.0" text="Marca" />
+                      <TableColumn fx:id="colModelo" prefWidth="90.0" text="Modelo" />
+                      <TableColumn fx:id="colAnio" prefWidth="75.0" text="Año" />
+                      <TableColumn fx:id="colKilometraje" prefWidth="95.0" text="Kilometraje" />
+                      <TableColumn fx:id="colCliente" prefWidth="75.0" text="Cliente" />
+                      <TableColumn fx:id="colEstado" prefWidth="54.0" text="Estado" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
