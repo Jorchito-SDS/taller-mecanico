@@ -1,59 +1,107 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.java.edu.g8.tallermecanico.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import main.java.edu.g8.tallermecanico.model.Cliente;
-import main.java.edu.g8.tallermecanico.service.ClienteService;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import main.java.edu.g8.tallermecanico.model.Vehiculo;
+import main.java.edu.g8.tallermecanico.service.VehiculoService;
+import main.java.edu.g8.tallermecanico.util.SceneManager;
 
-/**
- *
- * @author informatica
- */
-public class ClienteController {
-    
-    @FXML private TextField txtFiltro;
-    @FXML private TableView<Cliente> tablaClientes;
-    @FXML private TableColumn<Cliente, String> colNombre;
-    @FXML private TableColumn<Cliente, String> colTelefono;
-    @FXML private TableColumn<Cliente, String> colEmail;
-    @FXML private TableColumn<Cliente, String> colDireccion;
+public class ClienteController implements Initializable {
 
-    private final ClienteService clienteService = new ClienteService();
+    private final VehiculoService vehiculoService = new VehiculoService();
 
-    @FXML
-    public void initialize() {
-        
-        colNombre.setCellValueFactory(data -> 
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getNombre()));
-        colTelefono.setCellValueFactory(data -> 
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getTelefono()));
-        colEmail.setCellValueFactory(data -> 
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getEmail()));
-        colDireccion.setCellValueFactory(data -> 
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getDireccion()));
+    @FXML private TableView<Vehiculo> tablaMisVehiculos;
+    @FXML private TableColumn<Vehiculo, String> colPlaca;
+    @FXML private TableColumn<Vehiculo, String> colMarca;
+    @FXML private TableColumn<Vehiculo, String> colModelo;
+    @FXML private TableColumn<Vehiculo, Integer> colAnio;
+    @FXML private TableColumn<Vehiculo, Integer> colKilometraje;
 
-        cargarTabla("");
+    @FXML private TextField txtPlaca;
+    @FXML private TextField txtMarca;
+    @FXML private TextField txtModelo;
+    @FXML private TextField txtAnio;
+    @FXML private TextField txtKilometraje;
+
+    @FXML private TextField txtBuscarPlaca;
+    @FXML private Label lblEstadoActual;
+    @FXML private Label lblDetalleOrden;
+
+    @FXML private TextField txtPlacaCita;
+    @FXML private DatePicker dpFechaCita;
+    @FXML private TextField txtMotivoCita;
+    @FXML private Label lblMensajeCita;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        colAnio.setCellValueFactory(new PropertyValueFactory<>("anio"));
+        colKilometraje.setCellValueFactory(new PropertyValueFactory<>("kilometraje"));
+
+        cargarVehiculos();
+    }
+
+    private void cargarVehiculos() {
+        ObservableList<Vehiculo> lista = FXCollections.observableArrayList(vehiculoService.listarVehiculos());
+        tablaMisVehiculos.setItems(lista);
     }
 
     @FXML
-    public void onBuscar(ActionEvent event) {
-        String filtro = txtFiltro.getText();
-        cargarTabla(filtro);
+    public void onGuardarVehiculo(ActionEvent event) {
+        try {
+            String placa = txtPlaca.getText();
+            String marca = txtMarca.getText();
+            String modelo = txtModelo.getText();
+            int anio = Integer.parseInt(txtAnio.getText());
+            int kilometraje = Integer.parseInt(txtKilometraje.getText());
+
+            // Registro de vehículo (se pasa id_cliente por defecto temporalmente)
+            Vehiculo v = new Vehiculo("", 1, placa, marca, modelo, anio, kilometraje);
+            if (vehiculoService.registrarVehiculo(v)) {
+                cargarVehiculos();
+                txtPlaca.clear();
+                txtMarca.clear();
+                txtModelo.clear();
+                txtAnio.clear();
+                txtKilometraje.clear();
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Ingresa valores numéricos válidos en año y kilometraje.");
+        }
     }
 
-    private void cargarTabla(String filtro) {
-        ObservableList<Cliente> lista = FXCollections.observableArrayList(
-                clienteService.buscarClientes(filtro)
-        );
-        tablaClientes.setItems(lista);
+    @FXML
+    public void onBuscarEstadoOrden(ActionEvent event) {
+        String placa = txtBuscarPlaca.getText();
+        if (placa == null || placa.trim().isEmpty()) {
+            lblEstadoActual.setText("Estado: Ingrese una placa válida");
+            return;
+        }
+        // Simulación de búsqueda de estado de reparación
+        lblEstadoActual.setText("Estado: EN REPARACIÓN");
+        lblDetalleOrden.setText("Vehículo " + placa + " se encuentra actualmente en cambio de repuestos y afinamiento.");
+    }
+
+    @FXML
+    public void onAgendarCita(ActionEvent event) {
+        if (dpFechaCita.getValue() == null || txtPlacaCita.getText().isEmpty()) {
+            lblMensajeCita.setText("Por favor complete la fecha y la placa.");
+            return;
+        }
+        lblMensajeCita.setText("Cita registrada exitosamente para el " + dpFechaCita.getValue().toString());
+    }
+
+    @FXML
+    public void onVolverMenu(ActionEvent event) {
+        SceneManager.cambiarVista("/resources/view/LoginView.fxml", "Acceso - Taller Mecánico");
     }
 }

@@ -1,43 +1,56 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package main.java.edu.g8.tallermecanico.controller;
 
+package main.java.edu.g8.tallermecanico.controller;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import main.java.edu.g8.tallermecanico.model.Vehiculo;
 import main.java.edu.g8.tallermecanico.service.VehiculoService;
 
-/**
- *
- * @author informatica
- */
-public class VehiculoController {
 
-    private final VehiculoService vehiculoService;
+public class VehiculoController implements Initializable {
 
-    public VehiculoController() {
-        this.vehiculoService = new VehiculoService();
+    private final VehiculoService vehiculoService = new VehiculoService();
+
+    @FXML private TextField txtPlaca;
+    @FXML private TextField txtMarca;
+    @FXML private TextField txtModelo;
+    @FXML private TextField txtAnio;
+    @FXML private TextField txtKilometraje;
+    @FXML private TextField txtIdCliente;
+    @FXML private TextField txtBuscar;
+
+    @FXML private TableView<Vehiculo> tablaVehiculos;
+    @FXML private TableColumn<Vehiculo, String> colPlaca;
+    @FXML private TableColumn<Vehiculo, String> colMarca;
+    @FXML private TableColumn<Vehiculo, String> colModelo;
+    @FXML private TableColumn<Vehiculo, Integer> colAnio;
+    @FXML private TableColumn<Vehiculo, Integer> colKilometraje;
+    @FXML private TableColumn<Vehiculo, Integer> colCliente;
+
+    private ObservableList<Vehiculo> listaVehiculos;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        colAnio.setCellValueFactory(new PropertyValueFactory<>("anio"));
+        colKilometraje.setCellValueFactory(new PropertyValueFactory<>("kilometraje"));
+        colCliente.setCellValueFactory(new PropertyValueFactory<>("id_cliente"));
+
+        cargarTabla();
     }
 
-    // Campos de texto vinculados con la vista FXML (fx:id)
-    @FXML
-    private TextField txtIdVehiculo;
-    @FXML
-    private TextField txtIdCliente;
-    @FXML
-    private TextField txtPlaca;
-    @FXML
-    private TextField txtMarca;
-    @FXML
-    private TextField txtModelo;
-    @FXML
-    private TextField txtAnio;
-    @FXML
-    private TextField txtKilometraje;
+    private void cargarTabla() {
+        listaVehiculos = FXCollections.observableArrayList(vehiculoService.listarVehiculos());
+        tablaVehiculos.setItems(listaVehiculos);
+    }
 
-    // Método que se ejecuta al presionar el botón de Guardar en la vista
     @FXML
     public void guardarVehiculo() {
         try {
@@ -48,19 +61,23 @@ public class VehiculoController {
             int anio = Integer.parseInt(txtAnio.getText());
             int kilometraje = Integer.parseInt(txtKilometraje.getText());
 
-            // Pasamos "" como id_vehiculo para que la BD lo autogenere al ser un campo de tipo texto/UUID
             Vehiculo vehiculo = new Vehiculo("", idCliente, placa, marca, modelo, anio, kilometraje);
 
-            boolean exito = vehiculoService.registrarVehiculo(vehiculo);
-
-            if (exito) {
-                System.out.println("¡Vehículo guardado correctamente!");
-            } else {
-                System.out.println("Error al intentar guardar el vehículo.");
+            if (vehiculoService.registrarVehiculo(vehiculo)) {
+                cargarTabla();
+                limpiarCampos();
             }
-
         } catch (NumberFormatException e) {
-            System.out.println("Error de formato: Verifica que los campos numéricos sean válidos.");
+            System.out.println("Error de formato: Verifica los campos numéricos.");
         }
+    }
+
+    private void limpiarCampos() {
+        txtPlaca.clear();
+        txtMarca.clear();
+        txtModelo.clear();
+        txtAnio.clear();
+        txtKilometraje.clear();
+        txtIdCliente.clear();
     }
 }
