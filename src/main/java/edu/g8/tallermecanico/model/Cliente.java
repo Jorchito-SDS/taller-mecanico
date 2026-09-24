@@ -6,7 +6,7 @@ package main.java.edu.g8.tallermecanico.model;
 
 /**
  *
- * @author informatica
+ * @author olivi
  */
 public class Cliente {
     private int idCliente;
@@ -14,7 +14,7 @@ public class Cliente {
     private String telefono;
     private String email;
     private String direccion;
-
+    
     public Cliente(int idCliente, String nombre, String telefono, String email, String direccion) {
         this.idCliente = idCliente;
         this.nombre = nombre;
@@ -22,10 +22,9 @@ public class Cliente {
         this.email = email;
         this.direccion = direccion;
     }
-    public Cliente (){
-    
-   }
 
+    public Cliente() {}
+    
     public int getIdCliente() {
         return idCliente;
     }
@@ -65,6 +64,5 @@ public class Cliente {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-    
-    
 }
+

@@ -3,64 +3,57 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package main.java.edu.g8.tallermecanico.controller;
-import main.java.edu.g8.tallermecanico.service.ClienteService;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import main.java.edu.g8.tallermecanico.model.Cliente;
+import main.java.edu.g8.tallermecanico.service.ClienteService;
+
 /**
  *
  * @author informatica
  */
 public class ClienteController {
-    @FXML private TextField txtNombre;
-    @FXML private TextField txtTelefono;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtDireccion;
+    
+    @FXML private TextField txtFiltro;
+    @FXML private TableView<Cliente> tablaClientes;
+    @FXML private TableColumn<Cliente, String> colNombre;
+    @FXML private TableColumn<Cliente, String> colTelefono;
+    @FXML private TableColumn<Cliente, String> colEmail;
+    @FXML private TableColumn<Cliente, String> colDireccion;
 
-    private final ClienteService clienteService;
+    private final ClienteService clienteService = new ClienteService();
 
-    public ClienteController() {
-        this.clienteService = new ClienteService();
+    @FXML
+    public void initialize() {
+        
+        colNombre.setCellValueFactory(data -> 
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getNombre()));
+        colTelefono.setCellValueFactory(data -> 
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getTelefono()));
+        colEmail.setCellValueFactory(data -> 
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getEmail()));
+        colDireccion.setCellValueFactory(data -> 
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getDireccion()));
+
+        cargarTabla("");
     }
 
     @FXML
-    private void handleGuardarCliente() {
-        try {
-            // Nota: El id_cliente es Auto_Increment en la BD, por lo que al registrar
-            // mandamos los datos sin el ID (o pasas 0 si tu constructor lo requiere).
-            String nombre = txtNombre.getText();
-            String telefono = txtTelefono.getText();
-            String email = txtEmail.getText();
-            String direccion = txtDireccion.getText();
-
-            boolean exito = clienteService.registrarCliente(0, nombre, telefono, email, direccion);
-
-            if (exito) {
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Cliente registrado correctamente.");
-                limpiarCampos();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo registrar el cliente en la base de datos.");
-            }
-
-        } catch (IllegalArgumentException e) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Validación", e.getMessage());
-        } catch (Exception e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error Inesperado", "Ocurrió un error: " + e.getMessage());
-        }
+    public void onBuscar(ActionEvent event) {
+        String filtro = txtFiltro.getText();
+        cargarTabla(filtro);
     }
 
-    private void limpiarCampos() {
-        txtNombre.clear();
-        txtTelefono.clear();
-        txtEmail.clear();
-        txtDireccion.clear();
-    }
-
-    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
+    private void cargarTabla(String filtro) {
+        ObservableList<Cliente> lista = FXCollections.observableArrayList(
+                clienteService.buscarClientes(filtro)
+        );
+        tablaClientes.setItems(lista);
     }
 }

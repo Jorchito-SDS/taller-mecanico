@@ -12,26 +12,13 @@ import java.net.URL;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
-            // Reemplaza "VehiculoView.fxml" por "ClienteView.fxml" si quieres probar la otra vista primero.
-            // Asegúrate de que la ruta del recurso coincida con la ubicación de tu archivo FXML en el proyecto.
-           URL fxmlUrl = getClass().getResource("/view/VehiculoView.fxml");
-            
-            if (fxmlUrl == null) {
-                System.out.println("No se pudo encontrar el archivo FXML. Revisa la ruta.");
-                return;
-            }
+    public void start(Stage stage) {
+        SceneManager.inicializar(stage);
 
-            Parent root = FXMLLoader.load(fxmlUrl);
-            
-            primaryStage.setTitle("Sistema de Taller Mecánico - Módulo de Vehículos");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+
+        SceneManager.cambiarVista("/resources/view/MenuView.fxml", "Taller Mecánico Multimarca");
     }
 
     /**
