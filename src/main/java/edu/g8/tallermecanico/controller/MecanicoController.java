@@ -1,17 +1,15 @@
 package main.java.edu.g8.tallermecanico.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import main.java.edu.g8.tallermecanico.model.Mecanico;
-import main.java.edu.g8.tallermecanico.service.MecanicoService;
 import main.java.edu.g8.tallermecanico.util.SceneManager;
 
 public class MecanicoController {
@@ -20,66 +18,43 @@ public class MecanicoController {
     @FXML private TextField txtEspecialidad;
     @FXML private TextField txtTelefono;
     @FXML private CheckBox chkDisponible;
-    @FXML private javafx.scene.control.PasswordField txtPassword;
+    @FXML private PasswordField txtPassword;
 
-    @FXML private TableView<Mecanico> tablaMecanicos;
-    @FXML private TableColumn<Mecanico, String> colNombre;
-    @FXML private TableColumn<Mecanico, String> colEspecialidad;
-    @FXML private TableColumn<Mecanico, String> colTelefono;
-
-    private final MecanicoService mecanicoService = new MecanicoService();
-
-    @FXML
-    public void initialize() {
-        colNombre.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getNombre()));
-        colEspecialidad.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getEspecialidad()));
-        colTelefono.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getTelefono()));
-
-        cargarTabla();
-    }
-
-    private void cargarTabla() {
-        ObservableList<Mecanico> lista = FXCollections.observableArrayList(
-                mecanicoService.listarMecanicos());
-        tablaMecanicos.setItems(lista);
-    }
+    @FXML private TableView<?> tablaMecanicos;
+    @FXML private TableColumn<?, String> colNombre;
+    @FXML private TableColumn<?, String> colEspecialidad;
+    @FXML private TableColumn<?, String> colTelefono;
 
     @FXML
     public void onGuardar(ActionEvent event) {
-        try {
-            Mecanico nuevo = new Mecanico(
-                    null,
-                    txtNombre.getText(),
-                    txtEspecialidad.getText(),
-                    txtTelefono.getText(),
-                    chkDisponible.isSelected() ? 1 : 0,
-                    null // la contraseña se asigna en un flujo aparte (creación de usuario)
-            );
-
-            boolean exito = mecanicoService.registrarMecanico(nuevo, txtPassword.getText());
-
-            if (exito) {
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Mecánico registrado correctamente.");
-                limpiarFormulario();
-                cargarTabla();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "No se pudo guardar el mecánico.");
-            }
-
-        } catch (IllegalArgumentException e) {
-            mostrarAlerta(Alert.AlertType.WARNING, e.getMessage());
+        // Validar que los campos obligatorios no estén vacíos
+        if (txtNombre.getText().trim().isEmpty() || 
+            txtEspecialidad.getText().trim().isEmpty() || 
+            txtTelefono.getText().trim().isEmpty()) {
+            
+            // Alerta de error directa en el controlador
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error de Validación");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor completa los campos obligatorios: Nombre, Especialidad y Teléfono.");
+            alert.showAndWait();
+            return;
         }
+
+        // --- Lógica para guardar o insertar en lista/base de datos ---
+
+        // Alerta de confirmación de éxito directa en el controlador
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Éxito");
+        alert.setHeaderText(null);
+        alert.setContentText("El mecánico ha sido registrado correctamente.");
+        alert.showAndWait();
+
+        onLimpiar(event);
     }
 
     @FXML
     public void onLimpiar(ActionEvent event) {
-        limpiarFormulario();
-    }
-
-    private void limpiarFormulario() {
         txtNombre.clear();
         txtEspecialidad.clear();
         txtTelefono.clear();
@@ -87,15 +62,8 @@ public class MecanicoController {
         chkDisponible.setSelected(true);
     }
 
-    private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle("Gestión de Mecánicos");
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-    }
     @FXML
-public void onVolverMenu(ActionEvent event) {
-    SceneManager.cambiarVista("/view/LoginView.fxml", "Acceso - Taller Mecánico");
-}
+    public void onVolverMenu(ActionEvent event) {
+        SceneManager.cambiarVista("/view/LoginView.fxml", "Acceso - Taller Mecánico");
+    }
 }

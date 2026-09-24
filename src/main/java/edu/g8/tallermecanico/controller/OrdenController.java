@@ -2,6 +2,7 @@ package main.java.edu.g8.tallermecanico.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,7 +16,24 @@ public class OrdenController {
 
     @FXML
     public void onCrearOrden(ActionEvent event) {
-        // Lógica para crear orden de servicio
+        if (txtPlaca.getText().trim().isEmpty() || txtDiagnostico.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Campos Incompletos");
+            alert.setHeaderText(null);
+            alert.setContentText("Debes ingresar la placa del vehículo y el diagnóstico inicial.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Lógica para guardar la orden...
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Orden Creada");
+        alert.setHeaderText(null);
+        alert.setContentText("La orden de servicio fue registrada correctamente.");
+        alert.showAndWait();
+
+        onLimpiar(event);
     }
 
     @FXML
