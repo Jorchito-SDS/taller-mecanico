@@ -49,7 +49,6 @@ public class MecanicoRepository {
         }
     }
 
-    // Alias por compatibilidad
     public boolean guardarMecanico(Mecanico mecanico) throws SQLException {
         return guardar(mecanico);
     }

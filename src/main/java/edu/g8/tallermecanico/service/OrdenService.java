@@ -17,6 +17,15 @@ public class OrdenService {
         return ordenRepository.listarPorMecanico(idMecanico);
     }
 
+    public List<Orden> listarOrdenes() {
+        try {
+            return ordenRepository.listarActivas();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
     public boolean guardar(Orden orden) throws SQLException {
         return ordenRepository.guardar(orden);
     }
@@ -27,5 +36,15 @@ public class OrdenService {
 
     public boolean asignarMecanico(String idOrden, String idMecanico) throws SQLException {
         return ordenRepository.asignarMecanico(idOrden, idMecanico);
+    }
+
+    public boolean actualizarOrden(Orden orden) {
+        try {
+            // Reutiliza el método actualizarEstado que ya tenés en el repository
+            return ordenRepository.actualizarEstado(String.valueOf(orden.getIdOrden()), orden.getEstado());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

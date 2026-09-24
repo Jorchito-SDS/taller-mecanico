@@ -55,28 +55,30 @@ public class ClienteController implements Initializable {
         tablaMisVehiculos.setItems(lista);
     }
 
-    @FXML
-    public void onGuardarVehiculo(ActionEvent event) {
-        try {
-            String placa = txtPlaca.getText();
-            String marca = txtMarca.getText();
-            String modelo = txtModelo.getText();
-            int anio = Integer.parseInt(txtAnio.getText());
-            int kilometraje = Integer.parseInt(txtKilometraje.getText());
+   @FXML
+public void onGuardarVehiculo(ActionEvent event) {
+    try {
+        String placa = txtPlaca.getText();
+        String marca = txtMarca.getText();
+        String modelo = txtModelo.getText();
+        int anio = Integer.parseInt(txtAnio.getText());
 
-            // Registro de vehículo (se pasa id_cliente por defecto temporalmente)
-            Vehiculo v = new Vehiculo("", 1, placa, marca, modelo, anio, kilometraje);
-            if (vehiculoService.registrarVehiculo(v)) {
-                cargarVehiculos();
-                txtPlaca.clear();
-                txtMarca.clear();
-                txtModelo.clear();
-                txtAnio.clear();
-                txtKilometraje.clear();
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Ingresa valores numéricos válidos en año y kilometraje.");
+        // ID de cliente temporal como String ("1")
+        String idCliente = "1"; 
+
+        // Instanciar Vehiculo con los 5 parámetros requeridos
+        Vehiculo v = new Vehiculo(idCliente, marca, modelo, anio, placa);
+
+        if (vehiculoService.registrarVehiculo(v)) {
+            cargarVehiculos();
+            txtPlaca.clear();
+            txtMarca.clear();
+            txtModelo.clear();
+            txtAnio.clear();
         }
+    } catch (NumberFormatException e) {
+        System.out.println("Error: Ingrese valores numéricos válidos en el año.");
+    }
     }
 
     @FXML
