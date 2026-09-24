@@ -38,31 +38,29 @@ public class VehiculoController {
     private TextField txtKilometraje;
 
     // Método que se ejecuta al presionar el botón de Guardar en la vista
- @FXML
-public void guardarVehiculo() {
-    try {
-        // Ya no leemos txtIdVehiculo porque es AUTO_INCREMENT en la BD
-        int idCliente = Integer.parseInt(txtIdCliente.getText());
-        String placa = txtPlaca.getText();
-        String marca = txtMarca.getText();
-        String modelo = txtModelo.getText();
-        int anio = Integer.parseInt(txtAnio.getText());
-        int kilometraje = Integer.parseInt(txtKilometraje.getText());
+    @FXML
+    public void guardarVehiculo() {
+        try {
+            int idCliente = Integer.parseInt(txtIdCliente.getText());
+            String placa = txtPlaca.getText();
+            String marca = txtMarca.getText();
+            String modelo = txtModelo.getText();
+            int anio = Integer.parseInt(txtAnio.getText());
+            int kilometraje = Integer.parseInt(txtKilometraje.getText());
 
-        // Pasamos 0 como id_vehiculo (al ser auto_increment, la BD le asignará el valor real)
-        // Nota: Asegúrate de que el constructor de Vehiculo acepte un int o String para el id según lo tengas definido.
-        Vehiculo vehiculo = new Vehiculo(0, idCliente, placa, marca, modelo, anio, kilometraje);
+            // Pasamos "" como id_vehiculo para que la BD lo autogenere al ser un campo de tipo texto/UUID
+            Vehiculo vehiculo = new Vehiculo("", idCliente, placa, marca, modelo, anio, kilometraje);
 
-        boolean exito = vehiculoService.registrarVehiculo(vehiculo);
+            boolean exito = vehiculoService.registrarVehiculo(vehiculo);
 
-        if (exito) {
-            System.out.println("¡Vehículo guardado correctamente!");
-        } else {
-            System.out.println("Error al intentar guardar el vehículo.");
+            if (exito) {
+                System.out.println("¡Vehículo guardado correctamente!");
+            } else {
+                System.out.println("Error al intentar guardar el vehículo.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error de formato: Verifica que los campos numéricos sean válidos.");
         }
-
-    } catch (NumberFormatException e) {
-        System.out.println("Error de formato: Verifica que los campos numéricos sean válidos.");
     }
-}
 }

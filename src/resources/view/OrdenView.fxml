@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="main.java.edu.g8.tallermecanico.controller.OrdenController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Recepción de Vehículo / Nueva Orden" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Placa del vehículo:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtPlaca" promptText="Ej: P123ABC" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Diagnóstico inicial:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextArea fx:id="txtDiagnostico" prefRowCount="3" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <VBox spacing="10">
+        <Button text="Crear Orden" onAction="#onCrearOrden"/>
+        <Button text="Limpiar" onAction="#onLimpiar"/>
+    </VBox>
+
+    <Label fx:id="lblMensaje" style="-fx-text-fill: green;"/>
+
+    <Label text="Órdenes activas:" style="-fx-font-weight: bold;"/>
+    <TableView fx:id="tablaOrdenes" prefHeight="220">
+        <columns>
+            <TableColumn fx:id="colPlaca" text="Placa" prefWidth="100"/>
+            <TableColumn fx:id="colCliente" text="Cliente" prefWidth="150"/>
+            <TableColumn fx:id="colMecanico" text="Mecánico" prefWidth="150"/>
+            <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>
+        </columns>
+    </TableView>
+</VBox>
