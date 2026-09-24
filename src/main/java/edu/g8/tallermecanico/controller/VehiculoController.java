@@ -51,25 +51,24 @@ public class VehiculoController implements Initializable {
         tablaVehiculos.setItems(listaVehiculos);
     }
 
-    @FXML
-    public void guardarVehiculo() {
-        try {
-            int idCliente = Integer.parseInt(txtIdCliente.getText());
-            String placa = txtPlaca.getText();
-            String marca = txtMarca.getText();
-            String modelo = txtModelo.getText();
-            int anio = Integer.parseInt(txtAnio.getText());
-            int kilometraje = Integer.parseInt(txtKilometraje.getText());
+  @FXML
+public void guardarVehiculo() {
+    try {
+        String idCliente = txtIdCliente.getText(); 
+        String placa = txtPlaca.getText();
+        String marca = txtMarca.getText();
+        String modelo = txtModelo.getText();
+        int anio = Integer.parseInt(txtAnio.getText());
 
-            Vehiculo vehiculo = new Vehiculo("", idCliente, placa, marca, modelo, anio, kilometraje);
+        Vehiculo vehiculo = new Vehiculo(idCliente, marca, modelo, anio, placa);
 
-            if (vehiculoService.registrarVehiculo(vehiculo)) {
-                cargarTabla();
-                limpiarCampos();
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Error de formato: Verifica los campos numéricos.");
+        if (vehiculoService.registrarVehiculo(vehiculo)) {
+            cargarTabla();
+            limpiarCampos();
         }
+    } catch (NumberFormatException e) {
+        System.out.println("Error de formato: Verifica los campos numéricos.");
+    }
     }
 
     private void limpiarCampos() {
