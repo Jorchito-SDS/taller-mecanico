@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15.0" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="main.java.edu.g8.tallermecanico.controller.MenuController">
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <Label text="Taller Mecánico Multimarca" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+    <Label text="Selecciona un módulo:" style="-fx-font-size: 14px;"/>
+
+    <Button text="Mecánicos" prefWidth="220" onAction="#irAMecanicos"/>
+    <Button text="Órdenes de Servicio" prefWidth="220" onAction="#irAOrdenes"/>
+    <Button text="Asignar Mecánico" prefWidth="220" onAction="#irAAsignarMecanico"/>
+    <Button text="Órdenes por Mecánico" prefWidth="220" onAction="#irAOrdenesPorMecanico"/>
+
+    <!-- Se agregan más botones conforme el equipo termine cada módulo -->
+    <!-- <Button text="Clientes" prefWidth="220" onAction="#irAClientes"/> -->
+</VBox>
