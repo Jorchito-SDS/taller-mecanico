@@ -54,6 +54,7 @@
             <Tab text="📅 Agendar Cita">
                 <VBox spacing="15" alignment="TOP_LEFT">
                     <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                    <TextField fx:id="txtPlacaCita" promptText="Placa del vehículo"/>
                     <DatePicker fx:id="dpFechaCita" promptText="Seleccionar fecha"/>
                     <TextArea fx:id="txtMotivo" promptText="Motivo de la visita o falla detectada" prefRowCount="3"/>
                     <Button text="Confirmar Cita" onAction="#onAgendarCita"/>
