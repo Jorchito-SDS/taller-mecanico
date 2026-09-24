@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import main.java.edu.g8.tallermecanico.util.SceneManager;
 
 public class Main extends Application {
 

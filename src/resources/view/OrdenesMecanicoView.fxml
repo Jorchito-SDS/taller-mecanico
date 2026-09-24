@@ -11,7 +11,7 @@
 
 <VBox spacing="15.0" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="main.java.edu.g8.tallermecanico.controller.OrdenesPorMecanicoController">
+      fx:controller="main.java.edu.g8.tallermecanico.controller.OrdenesMecanicoController">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
