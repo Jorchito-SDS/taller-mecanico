@@ -7,3 +7,135 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : informatica
 */
 
+
+/* ==========================================================================
+   Clases agregadas para RolLoginView y GestionClientesView (estilo profesor).
+   El resto de pantallas del proyecto usa estilos inline y no se ve afectado:
+   un style="..." en el propio nodo FXML siempre gana sobre estas reglas.
+   ========================================================================== */
+
+* {
+    -fx-accent-cliente: #3182ce;
+    -fx-accent-mecanico: #e67e22;
+    -fx-accent-gerente: #2f855a;
+    -fx-bg-app: #1e222b;
+    -fx-bg-panel: #262b36;
+    -fx-bg-field: #2b313d;
+    -fx-bg-sidebar: #14171f;
+    -fx-text-muted: #a0aec0;
+    -fx-danger: #9b2c2c;
+}
+
+.login-fondo {
+    -fx-background-color: linear-gradient(to bottom right, #14171f, #1e222b 55%, #202531);
+}
+
+.login-card {
+    -fx-background-color: -fx-bg-panel;
+    -fx-background-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 24, 0.2, 0, 6);
+}
+
+.login-titulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.login-icono {
+    -fx-font-size: 34px;
+}
+
+.login-etiqueta {
+    -fx-font-size: 12px;
+    -fx-text-fill: -fx-text-muted;
+}
+
+.login-input {
+    -fx-background-color: -fx-bg-field;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #6b7684;
+    -fx-background-radius: 6;
+    -fx-padding: 8 10 8 10;
+}
+
+.login-error {
+    -fx-text-fill: #fc8181;
+    -fx-font-size: 12px;
+}
+
+.login-boton {
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-color: -fx-accent-cliente;
+}
+
+.login-volver {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-muted;
+    -fx-cursor: hand;
+    -fx-underline: false;
+}
+.login-volver:hover {
+    -fx-text-fill: white;
+}
+
+.role-cliente .login-boton  { -fx-background-color: -fx-accent-cliente; }
+.role-mecanico .login-boton { -fx-background-color: -fx-accent-mecanico; }
+.role-gerente .login-boton  { -fx-background-color: -fx-accent-gerente; }
+
+.app-header {
+    -fx-padding: 0 0 6 0;
+}
+
+.app-title {
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.app-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-muted;
+}
+
+.card {
+    -fx-background-color: -fx-bg-panel;
+    -fx-background-radius: 10;
+    -fx-padding: 16;
+}
+
+.btn-primary, .btn-secondary, .btn-danger, .btn-neutral {
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8 16 8 16;
+}
+.btn-primary  { -fx-background-color: #3182ce; }
+.btn-secondary{ -fx-background-color: #2f855a; }
+.btn-danger   { -fx-background-color: -fx-danger; }
+.btn-neutral  { -fx-background-color: #4a5568; }
+.btn-primary:hover, .btn-secondary:hover, .btn-danger:hover, .btn-neutral:hover {
+    -fx-opacity: 0.88;
+}
+
+.sidebar {
+    -fx-background-color: -fx-bg-sidebar;
+    -fx-padding: 20 0 0 0;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-muted;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 14 10 14;
+}
+.sidebar-button:hover {
+    -fx-background-color: #2b313d;
+    -fx-text-fill: white;
+}
