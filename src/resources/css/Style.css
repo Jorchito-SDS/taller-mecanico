@@ -24,6 +24,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-bg-sidebar: #14171f;
     -fx-text-muted: #a0aec0;
     -fx-danger: #9b2c2c;
+    -fx-accent-neon: #00e5ff;
+    -fx-border-subtle: #3a4150;
 }
 
 .login-fondo {
@@ -138,4 +140,165 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .sidebar-button:hover {
     -fx-background-color: #2b313d;
     -fx-text-fill: white;
+}
+
+
+.root {
+    -fx-background-color: -fx-bg-app;
+    -fx-font-family: "Segoe UI", "Consolas", sans-serif;
+}
+
+.label {
+    -fx-text-fill: #e2e8f0;
+}
+
+/* --- Campos de texto / combo / fecha --- */
+.text-field, .password-field, .text-area, .combo-box, .date-picker {
+    -fx-background-color: -fx-bg-field;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #6b7684;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-border-color: -fx-border-subtle;
+    -fx-highlight-fill: -fx-accent-neon;
+    -fx-highlight-text-fill: #0b0f14;
+}
+.text-area .content {
+    -fx-background-color: -fx-bg-field;
+}
+.text-field:focused, .password-field:focused, .text-area:focused,
+.combo-box:focused, .date-picker:focused {
+    -fx-border-color: -fx-accent-neon;
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.45), 10, 0.3, 0, 0);
+}
+.combo-box .list-cell, .date-picker .text-field {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+.combo-box .arrow, .date-picker .arrow-button .arrow {
+    -fx-background-color: -fx-accent-neon;
+}
+.combo-box-popup .list-view, .date-picker-popup {
+    -fx-background-color: -fx-bg-panel;
+    -fx-border-color: -fx-border-subtle;
+}
+.combo-box-popup .list-cell:filled:hover,
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: derive(-fx-accent-neon, -70%);
+    -fx-text-fill: white;
+}
+
+/* --- CheckBox --- */
+.check-box .box {
+    -fx-background-color: -fx-bg-field;
+    -fx-border-color: -fx-border-subtle;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+.check-box:selected .box {
+    -fx-background-color: -fx-accent-neon;
+    -fx-border-color: -fx-accent-neon;
+}
+.check-box:selected .mark {
+    -fx-background-color: #0b0f14;
+}
+
+
+.button {
+    -fx-background-color: #2b313d;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+}
+.button:hover {
+    -fx-background-color: derive(#2b313d, 20%);
+    -fx-effect: dropshadow(gaussian, rgba(0,229,255,0.35), 8, 0.2, 0, 0);
+}
+.button:armed {
+    -fx-background-color: derive(#2b313d, -10%);
+}
+.button:default {
+    -fx-background-color: -fx-accent-neon;
+    -fx-text-fill: #0b0f14;
+    -fx-font-weight: bold;
+}
+
+/* --- TabPane --- */
+.tab-pane .tab-header-background {
+    -fx-background-color: -fx-bg-sidebar;
+}
+.tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6 6 0 0;
+}
+.tab-pane .tab:selected {
+    -fx-background-color: -fx-bg-panel;
+    -fx-border-color: -fx-accent-neon transparent transparent transparent;
+    -fx-border-width: 2 0 0 0;
+}
+.tab-pane .tab .tab-label {
+    -fx-text-fill: -fx-text-muted;
+}
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+.tab-pane .tab-content-area {
+    -fx-background-color: -fx-bg-app;
+}
+
+/* --- TableView --- */
+.table-view {
+    -fx-background-color: -fx-bg-panel;
+    -fx-table-cell-border-color: transparent;
+}
+.table-view .column-header-background {
+    -fx-background-color: -fx-bg-sidebar;
+}
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -fx-border-subtle transparent;
+    -fx-size: 34;
+}
+.table-view .column-header .label {
+    -fx-text-fill: -fx-accent-neon;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+.table-row-cell {
+    -fx-background-color: -fx-bg-panel;
+    -fx-text-fill: #e2e8f0;
+    -fx-border-color: transparent transparent #262b36 transparent;
+}
+.table-row-cell:odd {
+    -fx-background-color: #232833;
+}
+.table-row-cell:selected {
+    -fx-background-color: derive(-fx-accent-neon, -75%);
+    -fx-text-fill: white;
+}
+.table-row-cell:hover {
+    -fx-background-color: #2b313d;
+}
+.table-view .scroll-bar:vertical, .table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+/* --- ScrollBar genérico --- */
+.scroll-bar .thumb {
+    -fx-background-color: -fx-border-subtle;
+    -fx-background-radius: 6;
+}
+.scroll-bar .thumb:hover {
+    -fx-background-color: derive(-fx-accent-neon, -30%);
+}
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+/* --- GridPane / Separator --- */
+.separator .line {
+    -fx-border-color: -fx-border-subtle;
 }

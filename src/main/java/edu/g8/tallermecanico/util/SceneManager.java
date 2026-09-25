@@ -31,10 +31,34 @@ public class SceneManager {
 
     private final Stage primaryStage;
     private SesionUsuario sesion;
+    private final URL hojaEstilosUrl;
 
     public SceneManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.sesion = new SesionUsuario(null, null, null);
+        this.hojaEstilosUrl = resolverHojaEstilos();
+    }
+
+    // --- HOJA DE ESTILOS GLOBAL ---
+    // Se busca una sola vez con el mismo enfoque robusto que cargarVista(),
+    // ya que la ubicación real de src/resources dentro del classpath compilado
+    // por NetBeans puede variar. Si no se encuentra, la app sigue funcionando
+    // con el look por defecto de JavaFX (no se lanza ninguna excepción).
+    private URL resolverHojaEstilos() {
+        String[] rutasCandidatas = {
+            "/resources/css/Style.css",
+            "/css/Style.css",
+            "/main/java/edu/g8/tallermecanico/css/Style.css",
+            "/Style.css"
+        };
+        for (String ruta : rutasCandidatas) {
+            URL url = getClass().getResource(ruta);
+            if (url != null) {
+                return url;
+            }
+        }
+        System.err.println("No se encontró Style.css; las ventanas se mostrarán sin el tema global.");
+        return null;
     }
 
     public Stage getPrimaryStage() {
@@ -157,7 +181,11 @@ public void showRegistroMecanicoView() {
                 }
             }
 
-            primaryStage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            if (hojaEstilosUrl != null) {
+                scene.getStylesheets().add(hojaEstilosUrl.toExternalForm());
+            }
+            primaryStage.setScene(scene);
             primaryStage.setTitle(titulo);
             primaryStage.show();
         } catch (Exception e) {
