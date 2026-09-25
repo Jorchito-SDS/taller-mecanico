@@ -1,12 +1,10 @@
 package main.java.edu.g8.tallermecanico.controller;
 
-import java.sql.SQLException;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -14,8 +12,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.java.edu.g8.tallermecanico.model.Mecanico;
-import main.java.edu.g8.tallermecanico.repository.MecanicoRepository;
+import main.java.edu.g8.tallermecanico.service.MecanicoService;
 import main.java.edu.g8.tallermecanico.util.SceneManager;
+import main.java.edu.g8.tallermecanico.util.SesionUsuario;
 
 public class MecanicoController {
 
@@ -30,8 +29,16 @@ public class MecanicoController {
     @FXML private TableColumn<Mecanico, String> colEspecialidad;
     @FXML private TableColumn<Mecanico, String> colTelefono;
 
-    private final MecanicoRepository mecanicoRepository = new MecanicoRepository();
+    private final MecanicoService mecanicoService;
+    private final SceneManager sceneManager;
+    private final SesionUsuario sesion;
     private final ObservableList<Mecanico> listaMecanicos = FXCollections.observableArrayList();
+
+    public MecanicoController(MecanicoService mecanicoService, SceneManager sceneManager, SesionUsuario sesion) {
+        this.mecanicoService = mecanicoService;
+        this.sceneManager = sceneManager;
+        this.sesion = sesion;
+    }
 
     @FXML
     public void initialize() {
@@ -43,43 +50,35 @@ public class MecanicoController {
     }
 
     private void cargarMecanicos() {
-        try {
-            listaMecanicos.clear();
-            List<Mecanico> datos = mecanicoRepository.listarMecanicos();
-            listaMecanicos.addAll(datos);
-            tablaMecanicos.setItems(listaMecanicos);
-        } catch (SQLException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de Conexión", "No se pudieron cargar los mecánicos desde la base de datos.");
-        }
+        listaMecanicos.setAll(mecanicoService.listarMecanicos());
+        tablaMecanicos.setItems(listaMecanicos);
     }
 
     @FXML
     public void onGuardar(ActionEvent event) {
-        if (txtNombre.getText().trim().isEmpty() || 
-            txtEspecialidad.getText().trim().isEmpty() || 
+        if (txtNombre.getText().trim().isEmpty() ||
+            txtEspecialidad.getText().trim().isEmpty() ||
             txtTelefono.getText().trim().isEmpty() ||
             txtPassword.getText().trim().isEmpty()) {
-            
-            mostrarAlerta(Alert.AlertType.WARNING, "Campos Incompletos", "Por favor completa todos los campos del formulario.");
+
+            sceneManager.showInfoAlert("Campos Incompletos", null, "Por favor completa todos los campos del formulario.", AlertType.WARNING);
             return;
         }
 
-        try {
-            Mecanico nuevoMecanico = new Mecanico(
-                txtNombre.getText().trim(),
-                txtEspecialidad.getText().trim(),
-                txtTelefono.getText().trim(),
-                chkDisponible.isSelected() ? 1 : 0,
-                txtPassword.getText().trim()
-            );
+        Mecanico nuevoMecanico = new Mecanico(
+            txtNombre.getText().trim(),
+            txtEspecialidad.getText().trim(),
+            txtTelefono.getText().trim(),
+            chkDisponible.isSelected() ? 1 : 0,
+            null
+        );
 
-            if (mecanicoRepository.guardarMecanico(nuevoMecanico)) {
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Mecánico guardado con éxito.");
-                cargarMecanicos();
-                onLimpiar(event);
-            }
-        } catch (SQLException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error al Guardar", "Ocurrió un error al intentar registrar el mecánico.");
+        if (mecanicoService.registrarMecanico(nuevoMecanico, txtPassword.getText().trim())) {
+            sceneManager.showInfoAlert("Éxito", null, "Mecánico guardado con éxito. Ya puede iniciar sesión con su nombre y contraseña.", AlertType.INFORMATION);
+            cargarMecanicos();
+            onLimpiar(event);
+        } else {
+            sceneManager.showInfoAlert("Error al Guardar", null, "Ocurrió un error al intentar registrar el mecánico.", AlertType.ERROR);
         }
     }
 
@@ -93,15 +92,12 @@ public class MecanicoController {
     }
 
     @FXML
-    public void onVolverMenu(ActionEvent event) {
-        SceneManager.cambiarVista("/view/MenuView.fxml", "Gestión General - Taller Mecánico");
+    public void onVolverMenu(ActionEvent event) throws Exception {
+        sceneManager.showMenuGerenteView(sesion);
     }
 
-    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    @FXML
+    public void onCerrarSesion(ActionEvent event) throws Exception {
+        sceneManager.showLoginView();
     }
 }
