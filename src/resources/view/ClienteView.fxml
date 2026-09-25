@@ -1,87 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1050.0" style="-fx-background-color: #171b22;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.edu.g8.tallermecanico.controller.ClienteController">
-   
-   <!-- Panel Lateral con identidad propia para Clientes -->
-   <left>
-      <VBox alignment="TOP_CENTER" prefWidth="110.0" spacing="25.0" style="-fx-background-color: #0d1015; -fx-padding: 20 0 0 0;" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #8b949e; -fx-cursor: hand;" text="🏠 Inicio" />
-            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #8b949e; -fx-cursor: hand;" text="🚗 Vehículos" />
-            <!-- Botón activo de Clientes con tono Esmeralda -->
-            <Button mnemonicParsing="false" style="-fx-background-color: #1f382b; -fx-text-fill: #34d399; -fx-cursor: hand; -fx-font-weight: bold;" text="👥 Clientes" />
-            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #8b949e; -fx-cursor: hand;" text="⚙️ Ajustes" />
-         </children>
-      </VBox>
-   </left>
-   
-   <!-- Contenido Principal -->
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <!-- Título Superior con subtítulo -->
-            <Label layoutX="35.0" layoutY="25.0" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #f0f6fc;" text="Directorio de Clientes" />
-            <Label layoutX="35.0" layoutY="52.0" style="-fx-font-size: 13px; -fx-text-fill: #8b949e;" text="Gestión y registro de propietarios del taller" />
-            
-            <!-- Contenedor del Formulario (Izquierda con tonos diferenciados) -->
-            <VBox layoutX="35.0" layoutY="90.0" prefWidth="275.0" spacing="10.0">
-               <children>
-                  <Label text="ID del Cliente" textFill="#8b949e" />
-                  <TextField fx:id="txtId" disable="true" promptText="Automático" style="-fx-background-color: #21262d; -fx-text-fill: #484f58;" />
-                  
-                  <Label text="Nombre y Apellido" textFill="#8b949e" />
-                  <TextField fx:id="txtNombre" promptText="Ej. Juan Pérez" style="-fx-background-color: #21262d; -fx-text-fill: #f0f6fc;" />
-                  
-                  <Label text="Número de Teléfono" textFill="#8b949e" />
-                  <TextField fx:id="txtTelefono" promptText="Ej. 5555-4444" style="-fx-background-color: #21262d; -fx-text-fill: #f0f6fc;" />
-                  
-                  <Label text="Correo Electrónico" textFill="#8b949e" />
-                  <TextField fx:id="txtEmail" promptText="correo@email.com" style="-fx-background-color: #21262d; -fx-text-fill: #f0f6fc;" />
-                  
-                  <Label text="Dirección Residencial" textFill="#8b949e" />
-                  <TextField fx:id="txtDireccion" promptText="Zona o dirección" style="-fx-background-color: #21262d; -fx-text-fill: #f0f6fc;" />
-                  
-                  <!-- Botones de Acción con estilo Esmeralda / Neutral -->
-                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#handleGuardarCliente" prefHeight="36.0" prefWidth="275.0" style="-fx-background-color: #238636; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="✨ Registrar Cliente" />
-                  <Button fx:id="btnActualizar" mnemonicParsing="false" prefHeight="34.0" prefWidth="275.0" style="-fx-background-color: #9e6a03; -fx-text-fill: white; -fx-cursor: hand;" text="🔄 Modificar Datos" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="34.0" prefWidth="275.0" style="-fx-background-color: #da3633; -fx-text-fill: white; -fx-cursor: hand;" text="🗑 Dar de Baja" />
-                  <Button fx:id="btnLimpiar" mnemonicParsing="false" prefHeight="34.0" prefWidth="275.0" style="-fx-background-color: #30363d; -fx-text-fill: #c9d1d9; -fx-cursor: hand;" text="Limpiar Campos" />
-               </children>
-            </VBox>
-            
-            <!-- Barra de Búsqueda y Tabla (Derecha) -->
-            <VBox layoutX="340.0" layoutY="90.0" prefHeight="520.0" prefWidth="585.0" spacing="12.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" spacing="12.0">
-                     <children>
-                        <Label text="Filtro de búsqueda:" textFill="#8b949e" />
-                        <TextField fx:id="txtBuscarCliente" prefHeight="28.0" prefWidth="380.0" promptText="Buscar por nombre o teléfono..." style="-fx-background-color: #21262d; -fx-text-fill: #f0f6fc;" />
-                     </children>
-                  </HBox>
-                  
-                  <TableView fx:id="tablaClientes" prefHeight="480.0" prefWidth="585.0" style="-fx-background-color: #21262d;">
-                    <columns>
-                      <TableColumn fx:id="colId" prefWidth="55.0" text="ID" />
-                      <TableColumn fx:id="colNombre" prefWidth="140.0" text="Nombre" />
-                      <TableColumn fx:id="colTelefono" prefWidth="105.0" text="Teléfono" />
-                      <TableColumn fx:id="colEmail" prefWidth="150.0" text="Correo" />
-                      <TableColumn fx:id="colDireccion" prefWidth="134.0" text="Dirección" />
-                    </columns>
-                  </TableView>
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-   </center>
-</BorderPane>
+<VBox spacing="15.0" prefWidth="750" prefHeight="500" 
+      xmlns="http://javafx.com/javafx" 
+      xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="main.java.edu.g8.tallermecanico.controller.ClienteController">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="👤 Portal del Cliente" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="Cerrar Sesión" onAction="#onCerrarSesion"/>
+    </HBox>
+
+    <TabPane prefHeight="420" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab text="🚗 Mis Vehículos">
+                <VBox spacing="10">
+                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                    <HBox spacing="10">
+                        <TextField fx:id="txtPlaca" promptText="Placa"/>
+                        <TextField fx:id="txtMarca" promptText="Marca"/>
+                        <TextField fx:id="txtModelo" promptText="Modelo"/>
+                        <TextField fx:id="txtAnio" promptText="Año"/>
+                        <Button text="Registrar" onAction="#onRegistrarVehiculo"/>
+                    </HBox>
+                    <TableView fx:id="tablaVehiculos" prefHeight="250">
+                        <columns>
+                            <TableColumn fx:id="colPlaca" text="Placa" prefWidth="120"/>
+                            <TableColumn fx:id="colMarca" text="Marca" prefWidth="150"/>
+                            <TableColumn fx:id="colModelo" text="Modelo" prefWidth="150"/>
+                            <TableColumn fx:id="colAnio" text="Año" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <Tab text="🔧 Estado de Reparación">
+                <VBox spacing="10">
+                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                    <TableView fx:id="tablaOrdenes" prefHeight="300">
+                        <columns>
+                            <TableColumn fx:id="colOrdenVehiculo" text="Vehículo" prefWidth="150"/>
+                            <TableColumn fx:id="colOrdenEstado" text="Estado" prefWidth="150"/>
+                            <TableColumn fx:id="colOrdenDiagnostico" text="Diagnóstico" prefWidth="250"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <Tab text="📅 Agendar Cita">
+                <VBox spacing="15" alignment="TOP_LEFT">
+                    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                    <TextField fx:id="txtPlacaCita" promptText="Placa del vehículo"/>
+                    <DatePicker fx:id="dpFechaCita" promptText="Seleccionar fecha"/>
+                    <TextArea fx:id="txtMotivo" promptText="Motivo de la visita o falla detectada" prefRowCount="3"/>
+                    <Button text="Confirmar Cita" onAction="#onAgendarCita"/>
+                    <Label fx:id="lblMensajeCita" style="-fx-text-fill: green;"/>
+                </VBox>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>

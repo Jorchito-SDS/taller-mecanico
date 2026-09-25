@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.java.edu.g8.tallermecanico.repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.edu.g8.tallermecanico.config.ConnectionDb;
@@ -12,46 +11,45 @@ import main.java.edu.g8.tallermecanico.model.Mecanico;
 
 public class MecanicoRepository {
 
-    public List<Mecanico> listarMecanicos() {
-        List<Mecanico> mecanicos = new ArrayList<>();
-        String sql = "SELECT * FROM Mecanico";
+    public List<Mecanico> listarMecanicos() throws SQLException {
+        List<Mecanico> lista = new ArrayList<>();
+        String sql = "SELECT id_mecanico, nombre, especialidad, telefono, disponible FROM Mecanico";
 
         try (Connection conn = ConnectionDb.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                mecanicos.add(new Mecanico(
+                Mecanico m = new Mecanico(
                     rs.getString("id_mecanico"),
                     rs.getString("nombre"),
                     rs.getString("especialidad"),
                     rs.getString("telefono"),
-                    rs.getInt("disponible"),
-                    rs.getString("contrasena_hash")
-                ));
+                    rs.getInt("disponible")
+                );
+                lista.add(m);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return mecanicos;
+        return lista;
     }
 
-    public boolean guardar(Mecanico mecanico) {
-        String sql = "INSERT INTO Mecanico (nombre, especialidad, telefono, disponible, contrasena_hash) VALUES (?, ?, ?, ?, ?)";
+    public boolean guardar(Mecanico mecanico) throws SQLException {
+        String sql = "INSERT INTO Mecanico (nombre, especialidad, telefono, disponible, contrasena_hash) VALUES (?, ?, ?, ?, SHA2(?, 256))";
+
         try (Connection conn = ConnectionDb.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setString(1, mecanico.getNombre());
-            stmt.setString(2, mecanico.getEspecialidad());
-            stmt.setString(3, mecanico.getTelefono());
-            stmt.setInt(4, mecanico.getDisponible());
-            stmt.setString(5, mecanico.getContrasenaHash());
-            
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, mecanico.getNombre());
+            ps.setString(2, mecanico.getEspecialidad());
+            ps.setString(3, mecanico.getTelefono());
+            ps.setInt(4, mecanico.getDisponible());
+            ps.setString(5, mecanico.getContrasenaHash());
+
+            return ps.executeUpdate() > 0;
         }
+    }
+
+    public boolean guardarMecanico(Mecanico mecanico) throws SQLException {
+        return guardar(mecanico);
     }
 }
-

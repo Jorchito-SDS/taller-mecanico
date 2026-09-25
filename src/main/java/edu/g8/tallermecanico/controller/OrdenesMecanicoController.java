@@ -1,77 +1,82 @@
 package main.java.edu.g8.tallermecanico.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.util.StringConverter;
-
-import main.java.edu.g8.tallermecanico.model.Mecanico;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import main.java.edu.g8.tallermecanico.model.Orden;
-import main.java.edu.g8.tallermecanico.service.MecanicoService;
 import main.java.edu.g8.tallermecanico.service.OrdenService;
+import main.java.edu.g8.tallermecanico.util.SceneManager;
+import main.java.edu.g8.tallermecanico.util.UserSession;
 
 public class OrdenesMecanicoController {
 
-    @FXML private ComboBox<Mecanico> cmbMecanico;
+    @FXML private TableView<Orden> tablaOrdenesAsignadas;
+    @FXML private TableColumn<Orden, String> colIdOrden;
+    @FXML private TableColumn<Orden, String> colVehiculo, colEstado, colDiagnostico;
+    @FXML private ComboBox<String> cbNuevoEstado;
+    @FXML private TextArea txtDiagnostico;
     @FXML private Label lblMensaje;
 
-    @FXML private TableView<Orden> tablaOrdenes;
-    @FXML private TableColumn<Orden, String> colPlaca;
-    @FXML private TableColumn<Orden, String> colCliente;
-    @FXML private TableColumn<Orden, String> colEstado;
-    @FXML private TableColumn<Orden, String> colFechaRecepcion;
-
     private final OrdenService ordenService = new OrdenService();
-    private final MecanicoService mecanicoService = new MecanicoService();
 
     @FXML
     public void initialize() {
-        cmbMecanico.setConverter(new StringConverter<Mecanico>() {
-            @Override
-            public String toString(Mecanico m) {
-                if (m == null) return "";
-                return m.getNombre() + " - " + m.getEspecialidad();
-            }
-            @Override
-            public Mecanico fromString(String s) { return null; } // no se usa: el combo no es editable
-        });
+        colIdOrden.setCellValueFactory(new PropertyValueFactory<>("idOrden"));
+        colVehiculo.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
 
-        colPlaca.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getPlacaVehiculo()));
-        colCliente.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getNombreCliente()));
-        colEstado.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getEstado()));
-        colFechaRecepcion.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getFechaRecepcion()));
+        cbNuevoEstado.setItems(FXCollections.observableArrayList(
+            "EN_PROCESO", "ESPERA_REPUESTOS", "FINALIZADO"
+        ));
 
-        ObservableList<Mecanico> mecanicos = FXCollections.observableArrayList(
-                mecanicoService.listarMecanicos());
-        cmbMecanico.setItems(mecanicos);
+        cargarOrdenesAsignadas();
+    }
+
+    private void cargarOrdenesAsignadas() {
+        UserSession session = UserSession.getInstance();
+        if (session != null && session.getIdReferencia() != null) {
+            String idMecanicoSesion = String.valueOf(session.getIdReferencia());
+            tablaOrdenesAsignadas.setItems(FXCollections.observableArrayList(
+                ordenService.listarOrdenes().stream()
+                    .filter(o -> o.getIdMecanico() != null && o.getIdMecanico().equals(idMecanicoSesion))
+                    .toList()
+            ));
+        }
     }
 
     @FXML
-    public void onVerOrdenes() {
-        Mecanico seleccionado = cmbMecanico.getValue();
-        if (seleccionado == null) {
-            lblMensaje.setText("Seleccione un mecánico primero.");
+    public void onActualizarEstado() {
+        Orden seleccionada = tablaOrdenesAsignadas.getSelectionModel().getSelectedItem();
+        String nuevoEstado = cbNuevoEstado.getValue();
+
+        if (seleccionada == null) {
+            lblMensaje.setText("Seleccione una orden de la lista.");
             return;
         }
 
-        try {
-            ObservableList<Orden> lista = FXCollections.observableArrayList(
-                    ordenService.listarPorMecanico(seleccionado.getIdMecanico()));
-            tablaOrdenes.setItems(lista);
-
-            lblMensaje.setText(lista.isEmpty()
-                    ? "Este mecánico no tiene órdenes asignadas."
-                    : lista.size() + " orden(es) encontrada(s).");
-        } catch (IllegalArgumentException e) {
-            lblMensaje.setText(e.getMessage());
+        if (nuevoEstado == null || nuevoEstado.isBlank()) {
+            lblMensaje.setText("Seleccione el nuevo estado.");
+            return;
         }
+
+        seleccionada.setEstado(nuevoEstado);
+        if (txtDiagnostico.getText() != null && !txtDiagnostico.getText().isBlank()) {
+            seleccionada.setDiagnostico(txtDiagnostico.getText());
+        }
+
+        if (ordenService.actualizarOrden(seleccionada)) {
+            lblMensaje.setText("Orden actualizada con éxito.");
+            cargarOrdenesAsignadas();
+            txtDiagnostico.clear();
+        } else {
+            lblMensaje.setText("Error al actualizar la orden en la base de datos.");
+        }
+    }
+
+    @FXML
+    public void onVolverMenu() {
+        SceneManager.cambiarVista("/resources/view/MenuView.fxml", "Menú Principal");
     }
 }
