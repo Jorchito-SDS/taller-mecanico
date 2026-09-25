@@ -14,6 +14,18 @@ public class VehiculoService {
         this.vehiculoRepository = new VehiculoRepository();
     }
 
+    public List<Vehiculo> listarPorCliente(String idCliente) {
+        if (idCliente == null || idCliente.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        try {
+            return vehiculoRepository.listarPorCliente(idCliente);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
     public boolean registrarVehiculo(Vehiculo vehiculo) {
         if (vehiculo.getPlaca() == null || vehiculo.getPlaca().trim().isEmpty()) {
             System.out.println("Error: La placa del vehículo no puede estar vacía.");
@@ -36,6 +48,18 @@ public class VehiculoService {
     public List<Vehiculo> listarVehiculos() {
         try {
             return vehiculoRepository.listar();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Vehiculo> buscarPorPlacaLike(String filtro) {
+        if (filtro == null || filtro.trim().isEmpty()) {
+            return listarVehiculos();
+        }
+        try {
+            return vehiculoRepository.buscarPorPlacaLike(filtro.trim());
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();

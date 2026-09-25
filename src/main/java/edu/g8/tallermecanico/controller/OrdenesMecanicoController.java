@@ -57,11 +57,13 @@ public class OrdenesMecanicoController {
             lblMensaje.setText("No hay una sesión de mecánico activa.");
             return;
         }
-        tablaOrdenesAsignadas.setItems(FXCollections.observableArrayList(
-            ordenService.listarOrdenes().stream()
-                .filter(o -> o.getIdMecanico() != null && o.getIdMecanico().equals(idMecanicoSesion))
-                .toList()
-        ));
+        try {
+            tablaOrdenesAsignadas.setItems(FXCollections.observableArrayList(
+                ordenService.listarPorMecanico(idMecanicoSesion)
+            ));
+        } catch (Exception e) {
+            lblMensaje.setText("No se pudieron cargar las órdenes: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -90,6 +92,21 @@ public class OrdenesMecanicoController {
             txtDiagnostico.clear();
         } else {
             lblMensaje.setText("Error al actualizar la orden en la base de datos.");
+        }
+    }
+
+    @FXML
+    public void onEliminarOrden() {
+        Orden seleccionada = tablaOrdenesAsignadas.getSelectionModel().getSelectedItem();
+        if (seleccionada == null) {
+            lblMensaje.setText("Seleccione una orden de la lista.");
+            return;
+        }
+        if (ordenService.eliminarOrden(seleccionada.getIdOrden())) {
+            lblMensaje.setText("Orden eliminada.");
+            cargarOrdenesAsignadas();
+        } else {
+            lblMensaje.setText("No se pudo eliminar la orden.");
         }
     }
 

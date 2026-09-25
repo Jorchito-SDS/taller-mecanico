@@ -1,6 +1,5 @@
 package main.java.edu.g8.tallermecanico.util;
 
-import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,154 +7,225 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.Optional;
+
 import main.java.edu.g8.tallermecanico.controller.AsignarMecanicoController;
 import main.java.edu.g8.tallermecanico.controller.ClienteController;
-import main.java.edu.g8.tallermecanico.controller.GestionClienteController;
-import main.java.edu.g8.tallermecanico.controller.LoginController;
+import main.java.edu.g8.tallermecanico.controller.GestionClientesController;
 import main.java.edu.g8.tallermecanico.controller.MecanicoController;
 import main.java.edu.g8.tallermecanico.controller.MenuController;
 import main.java.edu.g8.tallermecanico.controller.OrdenController;
 import main.java.edu.g8.tallermecanico.controller.OrdenesMecanicoController;
 import main.java.edu.g8.tallermecanico.controller.RepuestoController;
-import main.java.edu.g8.tallermecanico.controller.RolLoginController;
-import main.java.edu.g8.tallermecanico.controller.VehiculoController;
+import main.java.edu.g8.tallermecanico.repository.MecanicoRepository;
+import main.java.edu.g8.tallermecanico.repository.OrdenRepository;
 import main.java.edu.g8.tallermecanico.service.ClienteService;
 import main.java.edu.g8.tallermecanico.service.MecanicoService;
 import main.java.edu.g8.tallermecanico.service.OrdenService;
 import main.java.edu.g8.tallermecanico.service.RepuestoService;
 import main.java.edu.g8.tallermecanico.service.VehiculoService;
-import main.java.edu.g8.tallermecanico.repository.MecanicoRepository;
-import main.java.edu.g8.tallermecanico.repository.OrdenRepository;
-
 
 public class SceneManager {
 
-    private static final String CSS = "/css/Style.css";
-    private static final String FXML_PATH = "/view/";
-    private static final double ANCHO = 1000;
-    private static final double ALTO = 680;
-
     private final Stage primaryStage;
+    private SesionUsuario sesion;
 
     public SceneManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.sesion = new SesionUsuario(null, null, null);
     }
 
-    public void showLoginView() throws Exception {
-        cargar("LoginView.fxml", "Acceso - Taller Mecánico", clazz -> new LoginController(this));
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 
-    public void showRolLoginView(Rol rol) throws Exception {
-        cargar("RolLoginView.fxml", "Iniciar sesión - Taller Mecánico",
-                clazz -> new RolLoginController(rol, new ClienteService(), new MecanicoService(), this));
+    public SesionUsuario getSesion() {
+        return sesion;
     }
 
-    public void showMenuGerenteView(SesionUsuario sesion) throws Exception {
-        cargar("MenuView.fxml", "Gerencia - Taller Mecánico",
-                clazz -> new MenuController(this, sesion));
+    public void setSesion(SesionUsuario sesion) {
+        this.sesion = sesion;
     }
 
-    public void showClientesView(SesionUsuario sesion) throws Exception {
-        cargar("GestionClientesView.fxml", "Gestión de Clientes",
-                clazz -> new GestionClienteController(new ClienteService(), this, sesion));
+    // --- MÉTODOS DE VISTAS Y NAVEGACIÓN ---
+
+    public void showLoginView() {
+        cargarVista("/main/java/edu/g8/tallermecanico/view/RolLoginView.fxml", "Iniciar Sesión - Taller Mecánico");
+    }
+public void showRegistroMecanicoView() {
+        cargarVista("/main/java/edu/g8/tallermecanico/view/RegistroMecanicoView.fxml", "Registro de Mecánico - Taller Mecánico");
+    }
+    public void mostrarLogin() {
+        showLoginView();
     }
 
-    public void showVehiculosView(SesionUsuario sesion) throws Exception {
-        cargar("VehiculoView.fxml", "Gestión de Vehículos",
-                clazz -> new VehiculoController(new VehiculoService(), this, sesion));
+    public void showRolLoginView(Rol rol) {
+        showLoginView();
     }
 
-    public void showMecanicosView(SesionUsuario sesion) throws Exception {
-        cargar("MecanicoView.fxml", "Gestión de Mecánicos",
-                clazz -> new MecanicoController(new MecanicoService(), this, sesion));
+    public void showRegistroClienteView() {
+        cargarVista("/main/java/edu/g8/tallermecanico/view/RegistroClienteView.fxml", "Registro de Cliente - Taller Mecánico");
     }
 
-    public void showOrdenesView(SesionUsuario sesion) throws Exception {
-        cargar("OrdenView.fxml", "Órdenes de Servicio",
-                clazz -> new OrdenController(new OrdenService(), this, sesion));
+    public void showMenuGerenteView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/MenuView.fxml", "Menú Principal - Gerencia");
     }
 
-    public void showAsignarMecanicoView(SesionUsuario sesion) throws Exception {
-        cargar("AsignarMecanicoView.fxml", "Asignar Mecánico",
-                clazz -> new AsignarMecanicoController(new OrdenRepository(), new MecanicoRepository(), this, sesion));
+    public void showClientesView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/GestionClientesView.fxml", "Gestión de Clientes");
     }
 
-    public void showRepuestosView(SesionUsuario sesion) throws Exception {
-        cargar("RepuestosView.fxml", "Inventario de Repuestos",
-                clazz -> new RepuestoController(new RepuestoService(), this, sesion));
+    public void showVehiculosView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/VehiculoView.fxml", "Gestión de Vehículos");
     }
 
-    public void showPanelMecanicoView(SesionUsuario sesion) throws Exception {
-        cargar("OrdenesMecanicoView.fxml", "Mis Órdenes - Mecánico",
-                clazz -> new OrdenesMecanicoController(new OrdenService(), this, sesion));
+    public void showMecanicosView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/MecanicoView.fxml", "Gestión de Mecánicos");
     }
 
-    public void showPanelClienteView(SesionUsuario sesion) throws Exception {
-        cargar("ClienteView.fxml", "Portal del Cliente - Taller Mecánico",
-                clazz -> new ClienteController(new VehiculoService(), new OrdenService(), this, sesion));
+    public void showOrdenesView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/OrdenView.fxml", "Gestión de Órdenes de Servicio");
     }
 
-    /**
-     * Carga un FXML aplicándole un controllerFactory que sabe construir el
-     * controller de esa pantalla con sus dependencias.
-     */
-    private void cargar(String fxml, String titulo, java.util.function.Function<Class<?>, Object> fabricaControlador) throws Exception {
-        URL resource = SceneManager.class.getResource(FXML_PATH + fxml);
-        if (resource == null) {
-            throw new Exception("No se encontró el archivo FXML: " + FXML_PATH + fxml);
-        }
+    public void showAsignarMecanicoView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/AsignarMecanicoView.fxml", "Asignar Mecánico");
+    }
 
-        FXMLLoader loader = new FXMLLoader(resource);
-        loader.setControllerFactory(clazz -> {
-            try {
-                return fabricaControlador.apply(clazz);
-            } catch (Exception e) {
-                throw new RuntimeException("Error al crear el controller de " + fxml + ": " + e.getMessage(), e);
+    public void showRepuestosView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/RepuestosView.fxml", "Gestión de Repuestos");
+    }
+
+    public void showPanelClienteView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/ClienteView.fxml", "Portal de Clientes");
+    }
+
+    public void showPanelMecanicoView(SesionUsuario sesion) {
+        this.sesion = sesion;
+        cargarVista("/main/java/edu/g8/tallermecanico/view/OrdenesMecanicoView.fxml", "Portal de Mecánicos");
+    }
+
+    // --- CARGADOR ROBUSTO DE VISTAS FXML ---
+
+    private void cargarVista(String fxmlPath, String titulo) {
+        String nombreArchivo = fxmlPath.substring(fxmlPath.lastIndexOf("/") + 1);
+
+        // Intenta localizar la vista FXML dinámicamente según la compilación de NetBeans
+        String[] rutasCandidatas = {
+            fxmlPath,
+            "/main/java/edu/g8/tallermecanico/view/" + nombreArchivo,
+            "/edu/g8/tallermecanico/view/" + nombreArchivo,
+            "/view/" + nombreArchivo,
+            "/resources/view/" + nombreArchivo,
+            "/" + nombreArchivo
+        };
+
+        URL resourceUrl = null;
+        for (String ruta : rutasCandidatas) {
+            resourceUrl = getClass().getResource(ruta);
+            if (resourceUrl != null) {
+                break;
             }
-        });
+        }
 
-        Parent root = loader.load();
-        Scene scene = new Scene(root, ANCHO, ALTO);
-        aplicarEstilos(scene);
-        primaryStage.setTitle(titulo);
-        primaryStage.setScene(scene);
-        primaryStage.centerOnScreen();
-        primaryStage.show();
-    }
+        if (resourceUrl == null) {
+            showInfoAlert("Error de Carga", "No se encontró el archivo FXML",
+                    "No se pudo hallar '" + nombreArchivo + "' en las rutas de compilación.\nComprueba que el archivo exista dentro del proyecto.",
+                    AlertType.ERROR);
+            return;
+        }
 
-    private void aplicarEstilos(Scene scene) {
-        URL css = SceneManager.class.getResource(CSS);
-        if (css != null) {
-            scene.getStylesheets().add(css.toExternalForm());
+        try {
+            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            loader.setControllerFactory(this::crearControlador);
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller != null) {
+                try {
+                    controller.getClass().getMethod("setSceneManager", SceneManager.class).invoke(controller, this);
+                } catch (NoSuchMethodException ignored) {
+                }
+            }
+
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle(titulo);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showInfoAlert("Error de Carga", "No se pudo procesar la vista",
+                    "Detalle del error:\n" + e.getMessage(), AlertType.ERROR);
         }
     }
 
-  
-    public void showInfoAlert(String titulo, String header, String contenido, AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.initOwner(primaryStage);
-        alert.setTitle(titulo);
+    // --- FÁBRICA DE CONTROLADORES ---
+    // Varios controladores (Menu, Cliente, GestionClientes, Mecanico, Orden,
+    // OrdenesMecanico, Repuesto, AsignarMecanico) solo tienen constructor con
+    // parámetros (servicios + SceneManager + sesión) y NO tienen constructor
+    // vacío. FXMLLoader, por defecto, solo sabe crear controladores con
+    // constructor vacío, así que sin esta fábrica el load() de esas vistas
+    // lanza una excepción (se veía como "no se pudo procesar la vista" o la
+    // pantalla simplemente no abría / no guardaba nada).
+    private Object crearControlador(Class<?> claseControlador) {
+        try {
+            if (claseControlador == MenuController.class) {
+                return new MenuController(this, sesion);
+            }
+            if (claseControlador == GestionClientesController.class) {
+                return new GestionClientesController(new ClienteService(), this, sesion);
+            }
+            if (claseControlador == ClienteController.class) {
+                return new ClienteController(new VehiculoService(), new OrdenService(), this, sesion);
+            }
+            if (claseControlador == MecanicoController.class) {
+                return new MecanicoController(new MecanicoService(), this, sesion);
+            }
+            if (claseControlador == OrdenController.class) {
+                return new OrdenController(new OrdenService(), this, sesion);
+            }
+            if (claseControlador == OrdenesMecanicoController.class) {
+                return new OrdenesMecanicoController(new OrdenService(), this, sesion);
+            }
+            if (claseControlador == RepuestoController.class) {
+                return new RepuestoController(new RepuestoService(), this, sesion);
+            }
+            if (claseControlador == AsignarMecanicoController.class) {
+                return new AsignarMecanicoController(new OrdenRepository(), new MecanicoRepository(), this, sesion);
+            }
+            // Resto de controladores (RolLoginController, RegistroClienteController,
+            // RegistroMecanicoController, VehiculoController, ...) sí tienen
+            // constructor vacío: se instancian de la forma estándar.
+            return claseControlador.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("No se pudo crear el controlador " + claseControlador.getName(), e);
+        }
+    }
+
+    // --- ALERTAS REUTILIZABLES ---
+
+    public void showInfoAlert(String title, String header, String content, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
         alert.setHeaderText(header);
-        alert.setContentText(contenido);
-        aplicarEstiloAlerta(alert);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
- 
-    public boolean showConfirmAlert(String titulo, String header, String contenido) {
+    public boolean showConfirmAlert(String title, String header, String content) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.initOwner(primaryStage);
-        alert.setTitle(titulo);
+        alert.setTitle(title);
         alert.setHeaderText(header);
-        alert.setContentText(contenido);
-        aplicarEstiloAlerta(alert);
-        return alert.showAndWait().filter(b -> b == ButtonType.OK).isPresent();
-    }
-
-    private void aplicarEstiloAlerta(Alert alert) {
-        URL css = SceneManager.class.getResource(CSS);
-        if (css != null) {
-            alert.getDialogPane().getStylesheets().add(css.toExternalForm());
-        }
+        alert.setContentText(content);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 }

@@ -5,36 +5,129 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           fx:controller="main.java.edu.g8.tallermecanico.controller.RolLoginController"
-           styleClass="login-fondo">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+            prefHeight="650.0" prefWidth="1050.0" 
+            style="-fx-background-color: #1e222b;" 
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="main.java.edu.g8.tallermecanico.controller.RolLoginController">
 
-    <VBox fx:id="contenedor" alignment="CENTER" spacing="14.0" maxWidth="360.0" maxHeight="-Infinity"
-          styleClass="login-card">
-        <padding>
-            <Insets top="36" right="36" bottom="36" left="36"/>
-        </padding>
+   <center>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            
+            <!-- PANEL 1: SELECCIÓN DE PERFIL -->
+            <VBox fx:id="panelSeleccionRol" alignment="CENTER" fillWidth="false" spacing="20.0" visible="true">
+               <children>
+                  <VBox alignment="CENTER" prefWidth="380.0" spacing="15.0" style="-fx-background-color: #232731; -fx-padding: 30; -fx-background-radius: 10;">
+                     <children>
+                        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" text="Selecciona tu Perfil" />
+                        <Label style="-fx-font-size: 13px; -fx-text-fill: #a0aec0;" text="Elige la opción con la que deseas ingresar" />
+                        
+                        <Button mnemonicParsing="false" onAction="#onSeleccionarCliente" prefHeight="45.0" prefWidth="300.0" style="-fx-background-color: #3182ce; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="👤 Portal de Clientes" />
+                        <Button mnemonicParsing="false" onAction="#onSeleccionarMecanico" prefHeight="45.0" prefWidth="300.0" style="-fx-background-color: #dd6b20; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🔧 Portal de Mecánicos" />
+                        <Button mnemonicParsing="false" onAction="#onSeleccionarGerencia" prefHeight="45.0" prefWidth="300.0" style="-fx-background-color: #38a169; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="💼 Panel de Gerencia" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
 
-        <Label fx:id="lblIcono" styleClass="login-icono"/>
-        <Label fx:id="lblTitulo" styleClass="login-titulo"/>
+            <!-- PANEL 2: PORTAL DE CLIENTES -->
+            <VBox fx:id="panelCliente" alignment="CENTER" fillWidth="false" spacing="20.0" visible="false">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefWidth="380.0" spacing="12.0" style="-fx-background-color: #232731; -fx-padding: 30; -fx-background-radius: 10;">
+                     <children>
+                        <VBox alignment="CENTER" prefWidth="320.0" spacing="5.0">
+                           <children>
+                              <Label style="-fx-font-size: 32px;" text="👤" />
+                              <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="Portal de Clientes" />
+                           </children>
+                        </VBox>
+                        
+                        <Label text="Correo electrónico" textFill="#a0aec0" />
+                        <TextField fx:id="txtEmailCliente" promptText="correo@ejemplo.com" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                        
+                        <Label text="Contraseña" textFill="#a0aec0" />
+                        <PasswordField fx:id="txtPasswordCliente" promptText="••••••••" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                        
+                        <Button fx:id="btnIngresarCliente" mnemonicParsing="false" onAction="#onIngresarCliente" prefHeight="40.0" prefWidth="320.0" style="-fx-background-color: #3182ce; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Ingresar" />
+                        
+                        <VBox alignment="CENTER" prefWidth="320.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onIrARegistroCliente" style="-fx-background-color: transparent; -fx-text-fill: #63b3ed; -fx-cursor: hand;" text="¿No tienes cuenta? Regístrate aquí" />
+                              <Button mnemonicParsing="false" onAction="#onVolverPerfil" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="← Elegir otro perfil" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
 
-        <VBox spacing="6.0" alignment="CENTER_LEFT">
-            <Label fx:id="lblEtiquetaUsuario" styleClass="login-etiqueta"/>
-            <TextField fx:id="txtUsuario" styleClass="login-input"/>
-        </VBox>
+            <!-- PANEL 3: PORTAL DE MECÁNICOS -->
+            <VBox fx:id="panelMecanico" alignment="CENTER" fillWidth="false" spacing="20.0" visible="false">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefWidth="380.0" spacing="12.0" style="-fx-background-color: #232731; -fx-padding: 30; -fx-background-radius: 10;">
+                     <children>
+                        <VBox alignment="CENTER" prefWidth="320.0" spacing="5.0">
+                           <children>
+                              <Label style="-fx-font-size: 32px;" text="🔧" />
+                              <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="Portal de Mecánicos" />
+                           </children>
+                        </VBox>
+                        
+                        <Label text="Nombre del mecánico" textFill="#a0aec0" />
+                        <TextField fx:id="txtNombreMecanico" promptText="Nombre registrado en el taller" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                        
+                        <Label text="Contraseña" textFill="#a0aec0" />
+                        <PasswordField fx:id="txtPasswordMecanico" promptText="••••••••" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                        
+                        <Button fx:id="btnIngresarMecanico" mnemonicParsing="false" onAction="#onIngresarMecanico" prefHeight="40.0" prefWidth="320.0" style="-fx-background-color: #dd6b20; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Ingresar" />
+                        
+                        <VBox alignment="CENTER" prefWidth="320.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onIrARegistroMecanico" style="-fx-background-color: transparent; -fx-text-fill: #fbd38d; -fx-cursor: hand;" text="¿No tienes cuenta? Regístrate aquí" />
+                              <Button mnemonicParsing="false" onAction="#onVolverPerfil" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="← Elegir otro perfil" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
 
-        <VBox spacing="6.0" alignment="CENTER_LEFT">
-            <Label text="Contraseña" styleClass="login-etiqueta"/>
-            <PasswordField fx:id="txtPassword" styleClass="login-input"/>
-        </VBox>
+            <!-- PANEL 4: PANEL DE GERENCIA (SIN REGISTRO) -->
+            <VBox fx:id="panelGerencia" alignment="CENTER" fillWidth="false" spacing="20.0" visible="false">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefWidth="380.0" spacing="12.0" style="-fx-background-color: #232731; -fx-padding: 30; -fx-background-radius: 10;">
+                     <children>
+                        <VBox alignment="CENTER" prefWidth="320.0" spacing="5.0">
+                           <children>
+                              <Label style="-fx-font-size: 32px;" text="💼" />
+                              <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="Panel de Gerencia" />
+                           </children>
+                        </VBox>
+                        
+                        <Label text="Usuario" textFill="#a0aec0" />
+                        <TextField fx:id="txtUsuarioGerencia" promptText="Usuario de gerencia" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                        
+                        <Label text="Contraseña" textFill="#a0aec0" />
+                        <PasswordField fx:id="txtPasswordGerencia" promptText="••••••••" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                        
+                        <Button fx:id="btnIngresarGerencia" mnemonicParsing="false" onAction="#onIngresarGerencia" prefHeight="40.0" prefWidth="320.0" style="-fx-background-color: #38a169; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Ingresar" />
+                        
+                        <VBox alignment="CENTER" prefWidth="320.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onVolverPerfil" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="← Elegir otro perfil" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
 
-        <Label fx:id="lblMensaje" styleClass="login-error" wrapText="true"/>
-
-        <Button text="Ingresar" onAction="#onIngresar" styleClass="login-boton" maxWidth="Infinity"/>
-        <Button text="&#8592; Elegir otro perfil" onAction="#onVolver" styleClass="login-volver" maxWidth="Infinity"/>
-    </VBox>
-</StackPane>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

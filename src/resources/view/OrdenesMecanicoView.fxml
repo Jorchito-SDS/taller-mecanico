@@ -37,6 +37,7 @@
         <HBox spacing="10" alignment="CENTER_LEFT">
             <ComboBox fx:id="cbNuevoEstado" promptText="Nuevo Estado" prefWidth="180"/>
             <Button text="Guardar Cambios" onAction="#onActualizarEstado" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+            <Button text="Eliminar Orden" onAction="#onEliminarOrden" style="-fx-background-color: #c0392b; -fx-text-fill: white;"/>
         </HBox>
         <TextArea fx:id="txtDiagnostico" promptText="Escriba el diagnóstico o notas técnicas..." prefHeight="80"/>
         <Label fx:id="lblMensaje" style="-fx-text-fill: #e74c3c;"/>

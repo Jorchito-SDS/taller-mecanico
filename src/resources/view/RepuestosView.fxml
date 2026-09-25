@@ -10,7 +10,12 @@
         <Insets top="15" right="15" bottom="15" left="15"/>
     </padding>
 
-    <Label text="Gestión de Repuestos" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Gestión de Repuestos" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="Volver al Menú" onAction="#onVolverMenu" style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Button text="Cerrar Sesión" onAction="#onCerrarSesion" style="-fx-background-color: #9b2c2c; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
 
     <GridPane hgap="10" vgap="10">
         <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
@@ -31,12 +36,21 @@
 
     <HBox spacing="10">
         <Button text="Registrar Repuesto" onAction="#handleRegistrar"/>
+        <Button text="Actualizar" onAction="#handleActualizar"/>
+        <Button text="Eliminar" onAction="#handleEliminar"/>
+        <Button text="Limpiar" onAction="#onLimpiar"/>
         <Button text="Consultar Stock Bajo" onAction="#handleConsultarStockBajo"/>
+        <Button text="Ver Todos" onAction="#handleListarTodos"/>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Buscar por nombre:"/>
+        <TextField fx:id="txtBuscar" prefWidth="250" promptText="Ingrese nombre a buscar..."/>
     </HBox>
 
     <TableView fx:id="tblRepuestos" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
             <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
             <TableColumn fx:id="colStock" text="Stock" prefWidth="75"/>
             <TableColumn fx:id="colStockMinimo" text="Stock Mín." prefWidth="85"/>

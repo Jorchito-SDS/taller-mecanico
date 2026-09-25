@@ -1,7 +1,7 @@
 package main.java.edu.g8.tallermecanico.model;
 
 public class Repuesto {
-    private int idRepuesto;
+    private String idRepuesto;
     private String nombre;
     private int stock;
     private int stockMinimo;
@@ -10,7 +10,7 @@ public class Repuesto {
 
     public Repuesto() {}
 
-    public Repuesto(int idRepuesto, String nombre, int stock, int stockMinimo, double precio, String proveedor) {
+    public Repuesto(String idRepuesto, String nombre, int stock, int stockMinimo, double precio, String proveedor) {
         this.idRepuesto = idRepuesto;
         this.nombre = nombre;
         this.stock = stock;
@@ -19,8 +19,8 @@ public class Repuesto {
         this.proveedor = proveedor;
     }
 
-    public int getIdRepuesto() { return idRepuesto; }
-    public void setIdRepuesto(int idRepuesto) { this.idRepuesto = idRepuesto; }
+    public String getIdRepuesto() { return idRepuesto; }
+    public void setIdRepuesto(String idRepuesto) { this.idRepuesto = idRepuesto; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }

@@ -23,7 +23,29 @@ public class RepuestoService {
         return repuestoRepository.guardar(repuesto, conn);
     }
 
-    public boolean descontarRepuestoDeOrden(int idRepuesto, int cantidad, Connection conn) throws SQLException, IllegalArgumentException {
+    public boolean actualizarRepuesto(Repuesto repuesto, Connection conn) throws SQLException {
+        if (repuesto.getNombre() == null || repuesto.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del repuesto no puede estar vacío.");
+        }
+        return repuestoRepository.actualizar(repuesto, conn);
+    }
+
+    public boolean eliminarRepuesto(String idRepuesto, Connection conn) throws SQLException {
+        return repuestoRepository.eliminar(idRepuesto, conn);
+    }
+
+    public List<Repuesto> listarTodos(Connection conn) throws SQLException {
+        return repuestoRepository.listarTodos(conn);
+    }
+
+    public List<Repuesto> buscarPorNombre(String filtro, Connection conn) throws SQLException {
+        if (filtro == null || filtro.trim().isEmpty()) {
+            return listarTodos(conn);
+        }
+        return repuestoRepository.buscarPorNombreLike(filtro.trim(), conn);
+    }
+
+    public boolean descontarRepuestoDeOrden(String idRepuesto, int cantidad, Connection conn) throws SQLException, IllegalArgumentException {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad a descontar debe ser mayor a 0.");
         }

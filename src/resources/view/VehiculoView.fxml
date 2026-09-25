@@ -17,10 +17,10 @@
    <left>
       <VBox alignment="TOP_CENTER" prefWidth="110.0" spacing="25.0" style="-fx-background-color: #14171f; -fx-padding: 20 0 0 0;" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="🏠 Inicio" />
-            <Button mnemonicParsing="false" style="-fx-background-color: #2b313d; -fx-text-fill: #3182ce; -fx-cursor: hand;" text="🚗 Vehículos" />
-            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="👥 Clientes" />
-            <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="⚙️ Ajustes" />
+            <Button mnemonicParsing="false" onAction="#irAInicio" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="🏠 Inicio" />
+            <Button mnemonicParsing="false" onAction="#irAVehiculos" style="-fx-background-color: #2b313d; -fx-text-fill: #3182ce; -fx-cursor: hand;" text="🚗 Vehículos" />
+            <Button mnemonicParsing="false" onAction="#irAClientes" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="👥 Clientes" />
+            <Button mnemonicParsing="false" onAction="#irAAjustes" style="-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-cursor: hand;" text="⚙️ Ajustes" />
          </children>
       </VBox>
    </left>
@@ -52,6 +52,9 @@
                   
                   <Label text="Cliente ID" textFill="#a0aec0" />
                   <TextField fx:id="txtIdCliente" promptText="ID del cliente" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
+                  
+                  <Label text="Estado" textFill="#a0aec0" />
+                  <TextField fx:id="txtEstado" promptText="Activo / En Taller / Inactivo" style="-fx-background-color: #2b313d; -fx-text-fill: white;" />
                   
                   <!-- Botones de Acción -->
                   <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarVehiculo" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #2f855a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="➕ Añadir Vehículo" />

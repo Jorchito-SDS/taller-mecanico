@@ -35,6 +35,7 @@
 
     <HBox spacing="10">
         <Button text="Crear Orden" onAction="#onCrearOrden"/>
+        <Button text="Eliminar Orden Seleccionada" onAction="#onEliminar" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold;"/>
         <Button text="Limpiar" onAction="#onLimpiar"/>
     </HBox>
 

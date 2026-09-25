@@ -165,7 +165,9 @@ public class GestionClientesController implements Initializable {
             sceneManager.showInfoAlert("Campos incompletos", null, "El nombre y el correo son obligatorios.", AlertType.WARNING);
             return null;
         }
-        return new Cliente(0, nombre, telefono, email, direccion);
+        
+        // Se reemplaza el '0' por un UUID generado en texto para ajustarse al tipo String del ID
+        return new Cliente(java.util.UUID.randomUUID().toString(), nombre, telefono, email, direccion);
     }
 
     private void limpiarCampos() {

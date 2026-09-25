@@ -10,6 +10,24 @@ public class MecanicoService {
 
     private final MecanicoRepository mecanicoRepository = new MecanicoRepository();
 
+    public boolean registrarMecanico(Mecanico mecanico, String password) {
+        try {
+            return mecanicoRepository.registrarMecanico(mecanico, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Mecanico autenticar(String nombre, String password) {
+        try {
+            return mecanicoRepository.autenticar(nombre, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Mecanico> listarMecanicos() {
         try {
             return mecanicoRepository.listarMecanicos();
@@ -26,5 +44,13 @@ public class MecanicoService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean actualizarMecanico(Mecanico mecanico, String nuevaPassword) throws SQLException {
+        return mecanicoRepository.actualizar(mecanico, nuevaPassword);
+    }
+
+    public boolean eliminarMecanico(String idMecanico) throws SQLException {
+        return mecanicoRepository.eliminar(idMecanico);
     }
 }

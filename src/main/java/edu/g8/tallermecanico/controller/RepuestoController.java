@@ -24,8 +24,10 @@ public class RepuestoController implements Initializable {
     @FXML private TextField txtPrecio;
     @FXML private TextField txtProveedor;
 
+    @FXML private TextField txtBuscar;
+
     @FXML private TableView<Repuesto> tblRepuestos;
-    @FXML private TableColumn<Repuesto, Integer> colId;
+    @FXML private TableColumn<Repuesto, String> colId;
     @FXML private TableColumn<Repuesto, String> colNombre;
     @FXML private TableColumn<Repuesto, Integer> colStock;
     @FXML private TableColumn<Repuesto, Integer> colStockMinimo;
@@ -63,6 +65,10 @@ public class RepuestoController implements Initializable {
                 cargarEnFormulario(actual);
             }
         });
+
+        if (txtBuscar != null) {
+            txtBuscar.textProperty().addListener((obs, viejo, nuevo) -> handleBuscar());
+        }
 
         handleListarTodos();
     }
@@ -135,6 +141,16 @@ public class RepuestoController implements Initializable {
             listaRepuestos.setAll(repuestoService.listarTodos(conn));
         } catch (Exception e) {
             sceneManager.showInfoAlert("Error", null, "No se pudo obtener el listado de repuestos: " + e.getMessage(), AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void handleBuscar() {
+        try (Connection conn = ConnectionDb.getConnection()) {
+            String filtro = txtBuscar != null && txtBuscar.getText() != null ? txtBuscar.getText().trim() : "";
+            listaRepuestos.setAll(repuestoService.buscarPorNombre(filtro, conn));
+        } catch (Exception e) {
+            sceneManager.showInfoAlert("Error", null, "No se pudo buscar repuestos: " + e.getMessage(), AlertType.ERROR);
         }
     }
 

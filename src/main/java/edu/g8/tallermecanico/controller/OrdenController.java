@@ -34,6 +34,7 @@ public class OrdenController implements Initializable {
     private final SesionUsuario sesion;
 
     private ObservableList<Orden> listaOrdenes;
+    private Orden seleccionActual;
 
     public OrdenController(OrdenService ordenService, SceneManager sceneManager, SesionUsuario sesion) {
         this.ordenService = ordenService;
@@ -47,6 +48,10 @@ public class OrdenController implements Initializable {
         colCliente.setCellValueFactory(new PropertyValueFactory<>("cliente"));
         colMecanico.setCellValueFactory(new PropertyValueFactory<>("mecanico"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+
+        tablaOrdenes.getSelectionModel().selectedItemProperty().addListener((obs, ant, actual) -> {
+            seleccionActual = actual;
+        });
 
         cargarOrdenes();
     }
@@ -77,6 +82,27 @@ public class OrdenController implements Initializable {
             }
         } catch (Exception e) {
             sceneManager.showInfoAlert("Error al Crear Orden", null, "Ocurrió un error al registrar la orden.", AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    public void onEliminar(ActionEvent event) {
+        if (seleccionActual == null) {
+            sceneManager.showInfoAlert("Selecciona una orden", null,
+                    "Elige una orden de la tabla para eliminarla.", AlertType.WARNING);
+            return;
+        }
+        boolean confirmado = sceneManager.showConfirmAlert("Eliminar orden", null,
+                "¿Seguro que deseas eliminar la orden de la placa \"" + seleccionActual.getPlaca() + "\"?");
+        if (!confirmado) {
+            return;
+        }
+        if (ordenService.eliminarOrden(seleccionActual.getIdOrden())) {
+            seleccionActual = null;
+            cargarOrdenes();
+        } else {
+            sceneManager.showInfoAlert("No se pudo eliminar", null,
+                    "Ocurrió un error al eliminar la orden.", AlertType.ERROR);
         }
     }
 

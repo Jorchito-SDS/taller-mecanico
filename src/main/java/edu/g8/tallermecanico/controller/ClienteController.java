@@ -67,13 +67,11 @@ public class ClienteController implements Initializable {
         colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
         colAnio.setCellValueFactory(new PropertyValueFactory<>("anio"));
 
-        if (colOrdenVehiculo != null) {
-            colOrdenVehiculo.setCellValueFactory(new PropertyValueFactory<>("placa"));
-            colOrdenEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-            colOrdenDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
-        }
+        colOrdenVehiculo.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        colOrdenEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        colOrdenDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
 
-        if (lblBienvenida != null && sesion != null) {
+        if (lblBienvenida != null) {
             lblBienvenida.setText("Hola, " + sesion.getNombre());
         }
 
@@ -82,7 +80,7 @@ public class ClienteController implements Initializable {
     }
 
     private String idClienteSesion() {
-        return sesion != null ? sesion.getIdReferencia() : null;
+        return sesion.getIdReferencia();
     }
 
     private void cargarVehiculos() {
@@ -98,7 +96,7 @@ public class ClienteController implements Initializable {
     private void cargarOrdenes() {
         String idCliente = idClienteSesion();
         ObservableList<Orden> lista = FXCollections.observableArrayList(
-            idCliente != null ? ordenService.listarPorCliente(Integer.parseInt(idCliente)) : java.util.List.of()
+            idCliente != null ? ordenService.listarPorCliente(idCliente) : java.util.List.of()
         );
         if (tablaOrdenes != null) {
             tablaOrdenes.setItems(lista);

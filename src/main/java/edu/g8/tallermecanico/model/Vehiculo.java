@@ -7,6 +7,8 @@ public class Vehiculo {
     private String modelo;
     private int anio;
     private String placa;
+    private int kilometraje;
+    private String estado;
 
     public Vehiculo() {
     }
@@ -18,6 +20,18 @@ public class Vehiculo {
         this.modelo = modelo;
         this.anio = anio;
         this.placa = placa;
+    }
+
+    public Vehiculo(String idVehiculo, String idCliente, String marca, String modelo, int anio, String placa,
+            int kilometraje, String estado) {
+        this.idVehiculo = idVehiculo;
+        this.idCliente = idCliente;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.anio = anio;
+        this.placa = placa;
+        this.kilometraje = kilometraje;
+        this.estado = estado;
     }
 
     public Vehiculo(String idCliente, String marca, String modelo, int anio, String placa) {
@@ -45,4 +59,10 @@ public class Vehiculo {
 
     public String getPlaca() { return placa; }
     public void setPlaca(String placa) { this.placa = placa; }
+
+    public int getKilometraje() { return kilometraje; }
+    public void setKilometraje(int kilometraje) { this.kilometraje = kilometraje; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 }
