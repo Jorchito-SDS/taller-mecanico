@@ -10,7 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import main.java.edu.g8.tallermecanico.controller.AsignarMecanicoController;
 import main.java.edu.g8.tallermecanico.controller.ClienteController;
-import main.java.edu.g8.tallermecanico.controller.GestionClientesController;
+import main.java.edu.g8.tallermecanico.controller.GestionClienteController;
 import main.java.edu.g8.tallermecanico.controller.LoginController;
 import main.java.edu.g8.tallermecanico.controller.MecanicoController;
 import main.java.edu.g8.tallermecanico.controller.MenuController;
@@ -27,12 +27,7 @@ import main.java.edu.g8.tallermecanico.service.VehiculoService;
 import main.java.edu.g8.tallermecanico.repository.MecanicoRepository;
 import main.java.edu.g8.tallermecanico.repository.OrdenRepository;
 
-/**
- * Se crea una sola vez en Main y se pasa por constructor a cada controller
- * que necesite navegar. Cada showXView() arma su propio FXMLLoader con un
- * controllerFactory que construye el controller pasándole a mano sus
- * dependencias (services y, si aplica, la sesión del usuario logueado).
- */
+
 public class SceneManager {
 
     private static final String CSS = "/css/Style.css";
@@ -62,7 +57,7 @@ public class SceneManager {
 
     public void showClientesView(SesionUsuario sesion) throws Exception {
         cargar("GestionClientesView.fxml", "Gestión de Clientes",
-                clazz -> new GestionClientesController(new ClienteService(), this, sesion));
+                clazz -> new GestionClienteController(new ClienteService(), this, sesion));
     }
 
     public void showVehiculosView(SesionUsuario sesion) throws Exception {

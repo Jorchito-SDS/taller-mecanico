@@ -15,7 +15,7 @@ import main.java.edu.g8.tallermecanico.util.SceneManager;
 import main.java.edu.g8.tallermecanico.util.SesionUsuario;
 
 /** CRUD de clientes para el perfil Gerente. */
-public class GestionClientesController implements Initializable {
+public class GestionClienteController implements Initializable {
 
     @FXML private TextField txtNombre;
     @FXML private TextField txtTelefono;
@@ -39,7 +39,7 @@ public class GestionClientesController implements Initializable {
     private ObservableList<Cliente> listaClientes;
     private Cliente seleccionActual;
 
-    public GestionClientesController(ClienteService clienteService, SceneManager sceneManager, SesionUsuario sesion) {
+    public GestionClienteController(ClienteService clienteService, SceneManager sceneManager, SesionUsuario sesion) {
         this.clienteService = clienteService;
         this.sceneManager = sceneManager;
         this.sesion = sesion;
