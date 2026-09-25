@@ -7,15 +7,12 @@ import main.java.edu.g8.tallermecanico.util.SceneManager;
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) {
-        // Guardamos la ventana principal
-        SceneManager.inicializar(stage);
+    public void start(Stage stage) throws Exception {
+        stage.setMinWidth(900);
+        stage.setMinHeight(620);
 
-        // Dimensiones mínimas de la aplicación
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
-
-SceneManager.cambiarVista("/view/LoginView.fxml", "Acceso - Taller Mecánico");
+        SceneManager sceneManager = new SceneManager(stage);
+        sceneManager.showLoginView();
     }
 
     public static void main(String[] args) {
