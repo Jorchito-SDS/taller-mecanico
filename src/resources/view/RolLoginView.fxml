@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="main.java.edu.g8.tallermecanico.controller.RolLoginController"
+           styleClass="login-fondo">
+
+    <VBox fx:id="contenedor" alignment="CENTER" spacing="14.0" maxWidth="360.0" maxHeight="-Infinity"
+          styleClass="login-card">
+        <padding>
+            <Insets top="36" right="36" bottom="36" left="36"/>
+        </padding>
+
+        <Label fx:id="lblIcono" styleClass="login-icono"/>
+        <Label fx:id="lblTitulo" styleClass="login-titulo"/>
+
+        <VBox spacing="6.0" alignment="CENTER_LEFT">
+            <Label fx:id="lblEtiquetaUsuario" styleClass="login-etiqueta"/>
+            <TextField fx:id="txtUsuario" styleClass="login-input"/>
+        </VBox>
+
+        <VBox spacing="6.0" alignment="CENTER_LEFT">
+            <Label text="Contraseña" styleClass="login-etiqueta"/>
+            <PasswordField fx:id="txtPassword" styleClass="login-input"/>
+        </VBox>
+
+        <Label fx:id="lblMensaje" styleClass="login-error" wrapText="true"/>
+
+        <Button text="Ingresar" onAction="#onIngresar" styleClass="login-boton" maxWidth="Infinity"/>
+        <Button text="&#8592; Elegir otro perfil" onAction="#onVolver" styleClass="login-volver" maxWidth="Infinity"/>
+    </VBox>
+</StackPane>
