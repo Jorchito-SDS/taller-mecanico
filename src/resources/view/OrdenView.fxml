@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="15.0" xmlns="http://javafx.com/javafx"
@@ -17,27 +18,30 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Recepción de Vehículo / Nueva Orden" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <!-- Encabezado con botón de retorno -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="📋 Recepción de Vehículo / Nueva Orden" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="Volver al Menú" onAction="#onVolverMenu" style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
 
     <GridPane hgap="10" vgap="10">
         <Label text="Placa del vehículo:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtPlaca" promptText="Ej: P123ABC" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <TextField fx:id="txtPlaca" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
         <Label text="Diagnóstico inicial:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <TextArea fx:id="txtDiagnostico" prefRowCount="3" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
     </GridPane>
 
-    <VBox spacing="10">
+    <HBox spacing="10">
         <Button text="Crear Orden" onAction="#onCrearOrden"/>
         <Button text="Limpiar" onAction="#onLimpiar"/>
-    </VBox>
-
-    <Label fx:id="lblMensaje" style="-fx-text-fill: green;"/>
+    </HBox>
 
     <Label text="Órdenes activas:" style="-fx-font-weight: bold;"/>
-    <TableView fx:id="tablaOrdenes" prefHeight="220">
+    <TableView fx:id="tablaOrdenes" prefHeight="200">
         <columns>
-            <TableColumn fx:id="colPlaca" text="Placa" prefWidth="100"/>
+            <TableColumn fx:id="colPlaca" text="Placa" prefWidth="120"/>
             <TableColumn fx:id="colCliente" text="Cliente" prefWidth="150"/>
             <TableColumn fx:id="colMecanico" text="Mecánico" prefWidth="150"/>
             <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>

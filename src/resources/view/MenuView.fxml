@@ -12,14 +12,13 @@
         <Insets top="40" right="40" bottom="40" left="40"/>
     </padding>
 
-    <Label text="Taller Mecánico Multimarca" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-    <Label text="Selecciona un módulo:" style="-fx-font-size: 14px;"/>
+    <Label text="🛠️ Panel General - Taller Mecánico" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    <Label text="Selecciona un módulo de gestión:" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
 
-    <Button text="Mecánicos" prefWidth="220" onAction="#irAMecanicos"/>
-    <Button text="Órdenes de Servicio" prefWidth="220" onAction="#irAOrdenes"/>
-    <Button text="Asignar Mecánico" prefWidth="220" onAction="#irAAsignarMecanico"/>
-    <Button text="Órdenes por Mecánico" prefWidth="220" onAction="#irAOrdenesPorMecanico"/>
+    <Button text="Mecánicos" prefWidth="240" onAction="#irAMecanicos" style="-fx-font-size: 14px;"/>
+    <Button text="Órdenes de Servicio" prefWidth="240" onAction="#irAOrdenes" style="-fx-font-size: 14px;"/>
+    <Button text="Asignar Mecánico" prefWidth="240" onAction="#irAAsignarMecanico" style="-fx-font-size: 14px;"/>
+    <Button text="Órdenes por Mecánico" prefWidth="240" onAction="#irAOrdenesPorMecanico" style="-fx-font-size: 14px;"/>
 
-    <!-- Se agregan más botones conforme el equipo termine cada módulo -->
-    <!-- <Button text="Clientes" prefWidth="220" onAction="#irAClientes"/> -->
+    <Button text="🚪 Cerrar Sesión" prefWidth="240" onAction="#onCerrarSesion" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
 </VBox>

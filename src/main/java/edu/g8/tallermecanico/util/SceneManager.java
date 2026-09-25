@@ -1,49 +1,70 @@
 package main.java.edu.g8.tallermecanico.util;
 
+import java.io.IOException;
+import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-/**
- * Controla el cambio de vistas dentro de la ventana principal (Stage).
- * Se inicializa una sola vez desde Main, y cualquier controlador
- * puede usarla para navegar a otra pantalla.
- */
 public class SceneManager {
 
-    private static Stage stagePrincipal;
+    private static Stage primaryStage;
 
-    private SceneManager() {
-        // Clase de utilidad: no se instancia
-    }
-
-    /** Debe llamarse una única vez desde Main.start(). */
+    /**
+     * Guarda la referencia del Stage principal otorgado por JavaFX.
+     */
     public static void inicializar(Stage stage) {
-        stagePrincipal = stage;
+        primaryStage = stage;
     }
 
     /**
-     * Cambia la vista actual por la que indica la ruta del FXML.
-     * @param rutaFxml ruta absoluta dentro de resources, ej: "/resources/view/OrdenView.fxml"
-     * @param titulo   título que se mostrará en la ventana
+     * Cambia la escena actual cargando una nueva vista FXML.
+     * 
+     * @param fxmlPath Ruta al archivo .fxml (ej. "/view/LoginView.fxml")
+     * @param titulo   Título de la ventana
      */
-    public static void cambiarVista(String rutaFxml, String titulo) {
+    public static void cambiarVista(String fxmlPath, String titulo) {
+        if (primaryStage == null) {
+            System.err.println("Error: SceneManager no ha sido inicializado con un Stage.");
+            return;
+        }
+
         try {
-            Parent root = FXMLLoader.load(SceneManager.class.getResource(rutaFxml));
-            Scene scene = new Scene(root);
-            stagePrincipal.setScene(scene);
-            stagePrincipal.setTitle(titulo);
-            stagePrincipal.show();
+            URL resource = SceneManager.class.getResource(fxmlPath);
+            if (resource == null) {
+                System.err.println("❌ ERROR: No se encontró el archivo FXML en la ruta: " + fxmlPath);
+                System.err.println("Verifica que el archivo esté en 'src/resources" + fxmlPath + "' o 'src" + fxmlPath + "'");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(resource);
+            Parent root = loader.load();
+
+            primaryStage.setTitle(titulo);
+            
+            // Si ya hay una escena configurada, reutilizamos el tamaño
+            if (primaryStage.getScene() != null) {
+                primaryStage.getScene().setRoot(root);
+            } else {
+                primaryStage.setScene(new Scene(root, 800, 600));
+            }
+
+            primaryStage.show();
+
         } catch (IOException e) {
+            System.err.println("❌ ERROR al cargar la vista FXML: " + fxmlPath);
             e.printStackTrace();
-            throw new RuntimeException("No se pudo cargar la vista: " + rutaFxml, e);
+        } catch (Exception e) {
+            System.err.println("❌ ERROR inesperado durante la inicialización de la vista:");
+            e.printStackTrace();
         }
     }
 
-    public static Stage getStagePrincipal() {
-        return stagePrincipal;
+    /**
+     * Permite obtener el Stage si se necesita manipular la ventana directamente.
+     */
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 }
