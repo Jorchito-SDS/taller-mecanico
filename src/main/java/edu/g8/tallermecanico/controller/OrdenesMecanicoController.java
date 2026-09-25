@@ -94,6 +94,13 @@ public class OrdenesMecanicoController {
     }
 
     @FXML
+    public void onVolverMenu() throws Exception {
+        // El mecánico no tiene un menú intermedio: "Volver" lo regresa a la
+        // pantalla de selección de perfil, igual que cerrar sesión.
+        sceneManager.showLoginView();
+    }
+
+    @FXML
     public void onCerrarSesion() throws Exception {
         sceneManager.showLoginView();
     }
