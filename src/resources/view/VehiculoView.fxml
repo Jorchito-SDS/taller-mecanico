@@ -55,9 +55,9 @@
                   
                   <!-- Botones de Acción -->
                   <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarVehiculo" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #2f855a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="➕ Añadir Vehículo" />
-                  <Button fx:id="btnActualizar" mnemonicParsing="false" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #d69e2e; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🔄 Actualizar" />
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #9b2c2c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🗑 Eliminar" />
-                  <Button fx:id="btnLimpiar" mnemonicParsing="false" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #4a5568; -fx-text-fill: white; -fx-cursor: hand;" text="Limpiar" />
+                  <Button fx:id="btnActualizar" mnemonicParsing="false" onAction="#onActualizar" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #d69e2e; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🔄 Actualizar" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#onEliminar" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #9b2c2c; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🗑 Eliminar" />
+                  <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#onLimpiar" prefHeight="35.0" prefWidth="280.0" style="-fx-background-color: #4a5568; -fx-text-fill: white; -fx-cursor: hand;" text="Limpiar" />
                </children>
             </VBox>
             

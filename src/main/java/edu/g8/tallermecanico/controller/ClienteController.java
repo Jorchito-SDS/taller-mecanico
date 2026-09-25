@@ -67,11 +67,13 @@ public class ClienteController implements Initializable {
         colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
         colAnio.setCellValueFactory(new PropertyValueFactory<>("anio"));
 
-        colOrdenVehiculo.setCellValueFactory(new PropertyValueFactory<>("placa"));
-        colOrdenEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        colOrdenDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
+        if (colOrdenVehiculo != null) {
+            colOrdenVehiculo.setCellValueFactory(new PropertyValueFactory<>("placa"));
+            colOrdenEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+            colOrdenDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
+        }
 
-        if (lblBienvenida != null) {
+        if (lblBienvenida != null && sesion != null) {
             lblBienvenida.setText("Hola, " + sesion.getNombre());
         }
 
@@ -80,7 +82,7 @@ public class ClienteController implements Initializable {
     }
 
     private String idClienteSesion() {
-        return sesion.getIdReferencia();
+        return sesion != null ? sesion.getIdReferencia() : null;
     }
 
     private void cargarVehiculos() {
