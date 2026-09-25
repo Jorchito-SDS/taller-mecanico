@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15.0" style="-fx-background-color: #1e222b;" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="main.java.edu.g8.tallermecanico.controller.GestionClientesController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="app-header">
+        <Label text="👥 Gestión de Clientes" styleClass="app-title"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Button text="Volver al Menú" styleClass="btn-neutral" onAction="#onVolverMenu"/>
+        <Button text="Cerrar Sesión" styleClass="btn-danger" onAction="#onCerrarSesion"/>
+    </HBox>
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <VBox spacing="10.0" prefWidth="280.0" styleClass="card">
+            <Label text="Datos del cliente" style="-fx-font-weight: bold; -fx-text-fill: white;"/>
+
+            <Label text="Nombre" styleClass="app-subtitle"/>
+            <TextField fx:id="txtNombre" promptText="Nombre completo"/>
+
+            <Label text="Teléfono" styleClass="app-subtitle"/>
+            <TextField fx:id="txtTelefono" promptText="Teléfono"/>
+
+            <Label text="Correo" styleClass="app-subtitle"/>
+            <TextField fx:id="txtEmail" promptText="correo@ejemplo.com"/>
+
+            <Label text="Dirección" styleClass="app-subtitle"/>
+            <TextField fx:id="txtDireccion" promptText="Dirección"/>
+
+            <Button onAction="#onGuardar" maxWidth="Infinity" styleClass="btn-secondary" text="➕ Registrar Cliente"/>
+            <Button fx:id="btnActualizar" onAction="#onActualizar" maxWidth="Infinity" styleClass="btn-primary" text="🔄 Actualizar"/>
+            <Button fx:id="btnEliminar" onAction="#onEliminar" maxWidth="Infinity" styleClass="btn-danger" text="🗑 Eliminar"/>
+            <Button onAction="#onLimpiar" maxWidth="Infinity" styleClass="btn-neutral" text="Limpiar"/>
+        </VBox>
+
+        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="Buscar por nombre o placa:" styleClass="app-subtitle"/>
+                <TextField fx:id="txtBuscar" promptText="Escribe para buscar..." HBox.hgrow="ALWAYS"/>
+                <Button text="Buscar" styleClass="btn-primary" onAction="#onBuscar"/>
+            </HBox>
+
+            <TableView fx:id="tablaClientes" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre" prefWidth="180.0" text="Nombre"/>
+                    <TableColumn fx:id="colTelefono" prefWidth="120.0" text="Teléfono"/>
+                    <TableColumn fx:id="colEmail" prefWidth="200.0" text="Correo"/>
+                    <TableColumn fx:id="colDireccion" prefWidth="220.0" text="Dirección"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </HBox>
+</VBox>
