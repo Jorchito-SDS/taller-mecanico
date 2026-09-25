@@ -27,12 +27,7 @@ import main.java.edu.g8.tallermecanico.service.VehiculoService;
 import main.java.edu.g8.tallermecanico.repository.MecanicoRepository;
 import main.java.edu.g8.tallermecanico.repository.OrdenRepository;
 
-/**
- * Se crea una sola vez en Main y se pasa por constructor a cada controller
- * que necesite navegar. Cada showXView() arma su propio FXMLLoader con un
- * controllerFactory que construye el controller pasándole a mano sus
- * dependencias (services y, si aplica, la sesión del usuario logueado).
- */
+
 public class SceneManager {
 
     private static final String CSS = "/css/Style.css";
