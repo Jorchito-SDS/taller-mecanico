@@ -7,10 +7,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import main.java.edu.g8.tallermecanico.model.Orden;
 import main.java.edu.g8.tallermecanico.service.OrdenService;
 import main.java.edu.g8.tallermecanico.util.SceneManager;
-import main.java.edu.g8.tallermecanico.util.UserSession;
+import main.java.edu.g8.tallermecanico.util.SesionUsuario;
 
+/**
+ * Panel del mecánico logueado: solo muestra las órdenes asignadas a él,
+ * según el idReferencia que trae la sesión recibida por constructor.
+ */
 public class OrdenesMecanicoController {
 
+    @FXML private Label lblMecanico;
     @FXML private TableView<Orden> tablaOrdenesAsignadas;
     @FXML private TableColumn<Orden, String> colIdOrden;
     @FXML private TableColumn<Orden, String> colVehiculo, colEstado, colDiagnostico;
@@ -18,7 +23,15 @@ public class OrdenesMecanicoController {
     @FXML private TextArea txtDiagnostico;
     @FXML private Label lblMensaje;
 
-    private final OrdenService ordenService = new OrdenService();
+    private final OrdenService ordenService;
+    private final SceneManager sceneManager;
+    private final SesionUsuario sesion;
+
+    public OrdenesMecanicoController(OrdenService ordenService, SceneManager sceneManager, SesionUsuario sesion) {
+        this.ordenService = ordenService;
+        this.sceneManager = sceneManager;
+        this.sesion = sesion;
+    }
 
     @FXML
     public void initialize() {
@@ -28,22 +41,27 @@ public class OrdenesMecanicoController {
         colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
 
         cbNuevoEstado.setItems(FXCollections.observableArrayList(
-            "EN_PROCESO", "ESPERA_REPUESTOS", "FINALIZADO"
+            "En_reparacion", "Espera_repuestos", "Entregado"
         ));
+
+        if (lblMecanico != null) {
+            lblMecanico.setText("Mecánico: " + sesion.getNombre());
+        }
 
         cargarOrdenesAsignadas();
     }
 
     private void cargarOrdenesAsignadas() {
-        UserSession session = UserSession.getInstance();
-        if (session != null && session.getIdReferencia() != null) {
-            String idMecanicoSesion = String.valueOf(session.getIdReferencia());
-            tablaOrdenesAsignadas.setItems(FXCollections.observableArrayList(
-                ordenService.listarOrdenes().stream()
-                    .filter(o -> o.getIdMecanico() != null && o.getIdMecanico().equals(idMecanicoSesion))
-                    .toList()
-            ));
+        String idMecanicoSesion = sesion.getIdReferencia();
+        if (idMecanicoSesion == null) {
+            lblMensaje.setText("No hay una sesión de mecánico activa.");
+            return;
         }
+        tablaOrdenesAsignadas.setItems(FXCollections.observableArrayList(
+            ordenService.listarOrdenes().stream()
+                .filter(o -> o.getIdMecanico() != null && o.getIdMecanico().equals(idMecanicoSesion))
+                .toList()
+        ));
     }
 
     @FXML
@@ -76,7 +94,7 @@ public class OrdenesMecanicoController {
     }
 
     @FXML
-    public void onVolverMenu() {
-        SceneManager.cambiarVista("/resources/view/MenuView.fxml", "Menú Principal");
+    public void onCerrarSesion() throws Exception {
+        sceneManager.showLoginView();
     }
 }
